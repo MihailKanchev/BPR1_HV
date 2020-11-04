@@ -1,15 +1,18 @@
 ﻿@inherits LayoutComponentBase
+    <link href="~/css/topnav.css" rel="stylesheet" />
+    <div class="container-fluid">
+        <NavMenu />
 
-<div class="sidebar">
-    <NavMenu />
-</div>
 
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @Body
+            </main>
+        </div>
     </div>
 
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+    <footer class="border-top footer text-muted fixed-bottom">
+        <div class="container mt-4 mb-4">
+            &copy; 2020 - I can only blame myself for this...
+        </div>
+    </footer>
