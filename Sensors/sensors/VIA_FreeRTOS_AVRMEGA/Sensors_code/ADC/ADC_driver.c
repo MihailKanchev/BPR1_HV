@@ -10,33 +10,31 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "../7segment/i7segment_driver.h"
-#include "../../app/converter/itemp_converter.h"
+#include <display_7seg.h>
 
 static uint16_t result;
 
-static uint8_t read;
-
 void init_adc()
 {
-	//Set PK7 as input
-	DDRK &= ~(_BV(PK7));
-	//Choosing ADC14 channel (100111) and setting reference to AREF
-	ADMUX |= _BV(REFS0) | _BV(MUX2) | _BV(MUX1) | _BV(MUX0);
+	//Set PK0 as input
+	DDRK &= ~(_BV(PK0));
+	//Choosing ADC8 channel (100000);
+	ADMUX |= _BV(REFS0);
 	ADCSRB |= _BV(MUX5);
 	/** Enable ADC (ADEN), set free running mode (ADATE)
 	enable interrupt (ADIE), set prescaler to 128**/
-	ADCSRA |= _BV(ADEN) | _BV(ADATE) | _BV(ADIE) | _BV(ADPS0) | _BV(ADPS1) | _BV(ADPS2);
-	// set ADC trigger selection to TIM1 compare match B
-	ADCSRB |= _BV(ADTS2) | _BV(ADTS0);
+	ADCSRA |= _BV(ADEN) | _BV(ADIE) | _BV(ADPS0) | _BV(ADPS1) | _BV(ADPS2);
+
 	
-	//start convertion
+	//start conversion
 	ADCSRA |= _BV(ADSC);
+	printf("Conversion started");
 }
 
 //reading the converted value
 ISR(ADC_vect)
 {
 	result = ADC;
-	printfloat_7s(convert_to_temperature(result), 1);
+	printf("Value converted to %d", result);
+	display_7seg_display(result,0);
 }

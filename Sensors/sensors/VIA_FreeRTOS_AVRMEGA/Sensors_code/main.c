@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include <avr/sfr_defs.h>
+#include <avr/interrupt.h>
+#include "ADC/iADC_driver.h"
 
 // Drivers
 #include <display_7seg.h>
@@ -54,7 +56,7 @@ void create_tasks_and_semaphores(void)
 	,  (const portCHAR *)"pressure_sensor"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
-	,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 	
 	xTaskCreate(
@@ -69,19 +71,22 @@ void create_tasks_and_semaphores(void)
 /*-----------------------------------------------------------*/
 void temperature( void *pvParameters )
 {
-
+	vTaskDelay(10000);
+	//start conversion
+	ADCSRA |= _BV(ADSC);
+	printf("Conversion started");
 }
 
 /*-----------------------------------------------------------*/
 void pressure( void *pvParameters )
 {
-
+	vTaskDelay(10000);
 }
 
 /*-----------------------------------------------------------*/
 void lorawan( void *pvParameters )
 {
-
+	vTaskDelay(10000);
 }
 
 /*-----------------------------------------------------------*/
@@ -94,9 +99,14 @@ void initialiseSystem()
 	create_tasks_and_semaphores();
 	
 	// Initialize drivers
-	
 	display_7seg_init(NULL);
 	display_7seg_power_up();
+	
+	//enable interrupts
+	sei();
+	
+	//start ADC
+	init_adc();
 }
 
 /*-----------------------------------------------------------*/
@@ -110,4 +120,3 @@ int main(void)
 	{
 	}
 }
-
