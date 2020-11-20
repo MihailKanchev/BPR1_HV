@@ -11,6 +11,7 @@
 #include <avr/sfr_defs.h>
 #include <avr/interrupt.h>
 #include "ADC/iADC_driver.h"
+//#include <queue.h>
 
 // Drivers
 #include <display_7seg.h>
@@ -22,7 +23,6 @@
 #include <stdio_driver.h>
 #include <serial.h>
 
-
 // define three Tasks
 void temperature( void *pvParameters );
 void pressure( void *pvParameters );
@@ -30,6 +30,9 @@ void lorawan( void *pvParameters );
 
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
+
+//A queue for data
+QueueHandle_t xQueue;
 
 /*-----------------------------------------------------------*/
 void create_tasks_and_semaphores(void)
@@ -42,13 +45,16 @@ void create_tasks_and_semaphores(void)
 			xSemaphoreGive( ( xTestSemaphore ) );  // Make the mutex available for use, by initially "Giving" the Semaphore.
 		}
 	}
+	
+	//creating a queue that can hold two items of size uint16
+	xQueue = xQueueCreate(2,sizeof(uint16_t));
 
 	xTaskCreate(
 	temperature
 	,  (const portCHAR *)"temperature_sensor"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
-	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 
 	xTaskCreate(
@@ -71,22 +77,32 @@ void create_tasks_and_semaphores(void)
 /*-----------------------------------------------------------*/
 void temperature( void *pvParameters )
 {
-	vTaskDelay(10000);
-	//start conversion
-	ADCSRA |= _BV(ADSC);
-	printf("Conversion started");
+	while(1){
+		get_reading(&xQueue);
+		uint16_t value;
+		if(xQueueReceive(xQueue,  &(value), portMAX_DELAY)){
+			printf("Value received in main: %d\n", value);
+		} else {
+			printf("Error when reading the queue\n");
+		}
+		vTaskDelay(1000/portTICK_PERIOD_MS);
+	}
 }
 
 /*-----------------------------------------------------------*/
 void pressure( void *pvParameters )
 {
-	vTaskDelay(10000);
+	while(1){
+		vTaskDelay(10000/portTICK_PERIOD_MS);
+	}
 }
 
 /*-----------------------------------------------------------*/
 void lorawan( void *pvParameters )
 {
-	vTaskDelay(10000);
+	while(1){
+		vTaskDelay(10000);
+	}
 }
 
 /*-----------------------------------------------------------*/

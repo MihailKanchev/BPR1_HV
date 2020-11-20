@@ -13,9 +13,11 @@
 #include <display_7seg.h>
 
 static uint16_t result;
+QueueHandle_t xSendingQueue;
 
 void init_adc()
 {
+	result = 0;
 	//Set PK0 as input
 	DDRK &= ~(_BV(PK0));
 	//Choosing ADC8 channel (100000);
@@ -24,17 +26,23 @@ void init_adc()
 	/** Enable ADC (ADEN), set free running mode (ADATE)
 	enable interrupt (ADIE), set prescaler to 128**/
 	ADCSRA |= _BV(ADEN) | _BV(ADIE) | _BV(ADPS0) | _BV(ADPS1) | _BV(ADPS2);
+}
 
-	
+void get_reading(QueueHandle_t *ptrQueue){
+	xSendingQueue = *(QueueHandle_t*)ptrQueue;
 	//start conversion
 	ADCSRA |= _BV(ADSC);
-	printf("Conversion started");
+	printf("Conversion started\n");
 }
 
 //reading the converted value
 ISR(ADC_vect)
 {
 	result = ADC;
-	printf("Value converted to %d", result);
+	if(!xQueueSend(xSendingQueue,(void*)&result,portMAX_DELAY)) {
+		printf("FAILED to send temperature to the queue\n");
+	} else {
+		printf("Temperature successfully added to queue\n");
+	}
 	display_7seg_display(result,0);
 }
