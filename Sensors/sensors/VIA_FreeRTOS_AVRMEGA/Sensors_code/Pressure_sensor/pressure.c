@@ -18,16 +18,14 @@ int adc_reading;
 float press;
 float volts;
 float pascal;
-float bars;
 
 void initialize_pressure(QueueHandle_t *ptrQueue)
 {
 	xQueue = *(QueueHandle_t*)ptrQueue;
-	adc_reading = 0;
-	press = -1;
+	adc_reading = -1;
 	volts = 0;
 	pascal = 0;
-	bars = 0;
+	press = 0;
 }
 
 void measure_pressure()
@@ -47,10 +45,10 @@ void convert_pressure()
 	
 	volts = (float)adc_reading*VOLTAGE_SUPPLY/PRECISION;
 	pascal = (float) (3*(volts-0.44))*1000000;
-	bars = pascal/100000;
-	printf("Bars: %.3f\n", bars);
+	press = pascal/100000;
+	printf("Bars: %.3f\n", press);
 	measurmentPress.readingLabel = PRESS_LABEL;
-	measurmentPress.value = bars;
+	measurmentPress.value = press;
 	if(!xQueueSend(xQueue, (void*)&measurmentPress, 100)) {
 		printf("Failed to send pressure to the queue\n");
 		} else {

@@ -12,7 +12,7 @@
 
 
 struct reading {
-	uint16_t readingLabel; // e.g. 0 - temp, 1 - pressure
+	uint8_t readingLabel; // e.g. 0 - temp, 1 - pressure
 	float value; // the converted value read by the sensor
 };
 
