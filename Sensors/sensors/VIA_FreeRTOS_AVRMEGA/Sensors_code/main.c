@@ -11,7 +11,9 @@
 #include <avr/sfr_defs.h>
 #include <avr/interrupt.h>
 #include "ADC/iADC_driver.h"
-//#include <queue.h>
+#include "Temperature_sensor/itemperature.h"
+#include "Pressure_sensor/ipressure.h"
+#include "reading_struct.h"
 
 // Drivers
 #include <display_7seg.h>
@@ -47,14 +49,14 @@ void create_tasks_and_semaphores(void)
 	}
 	
 	//creating a queue that can hold two items of size uint16
-	xQueue = xQueueCreate(2,sizeof(uint16_t));
+	xQueue = xQueueCreate(2,sizeof(struct reading));
 
 	xTaskCreate(
 	temperature
 	,  (const portCHAR *)"temperature_sensor"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
-	,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 
 	xTaskCreate(
@@ -70,38 +72,52 @@ void create_tasks_and_semaphores(void)
 	,  (const portCHAR *)"lorawan_handler"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
-	,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 }
 
 /*-----------------------------------------------------------*/
 void temperature( void *pvParameters )
 {
+	initialize_temp(&xQueue);
 	while(1){
-		get_reading(&xQueue);
-		uint16_t value;
-		if(xQueueReceive(xQueue,  &(value), portMAX_DELAY)){
-			printf("Value received in main: %d\n", value);
-		} else {
-			printf("Error when reading the queue\n");
-		}
-		vTaskDelay(1000/portTICK_PERIOD_MS);
+		measure_temp();
+		vTaskDelay(6000/portTICK_PERIOD_MS);
 	}
 }
 
 /*-----------------------------------------------------------*/
 void pressure( void *pvParameters )
 {
+	initialize_pressure(&xQueue);
 	while(1){
-		vTaskDelay(10000/portTICK_PERIOD_MS);
+		vTaskDelay(3000/portTICK_PERIOD_MS);
+		measure_pressure();
+		vTaskDelay(3000/portTICK_PERIOD_MS);
 	}
 }
 
 /*-----------------------------------------------------------*/
 void lorawan( void *pvParameters )
 {
+	struct reading received_reading;
 	while(1){
-		vTaskDelay(10000);
+		if(xQueueReceive(xQueue, (void*)&received_reading, portMAX_DELAY)){			
+		
+			float value = received_reading.value;
+			uint16_t label = received_reading.readingLabel;
+			if(label==0){
+				printf("Received TEMPERATURE with value: %f\n", value);
+			} else if(label==1){
+				printf("Received PRESSURE with value: %.1f\n", value);
+			}	else {
+				printf("Unrecognized label\n");
+			}
+			display_7seg_display(value, 2);
+			} else {
+			printf("Error when reading from queue\n");
+		}
+		vTaskDelay(2000/portTICK_PERIOD_MS);
 	}
 }
 

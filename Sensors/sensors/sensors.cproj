@@ -223,6 +223,21 @@
     <Compile Include="VIA_FreeRTOS_AVRMEGA\FreeRTOSTraceDriver\FreeRTOSTraceDriver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\Pressure_sensor\ipressure.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\Pressure_sensor\pressure.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\reading_struct.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\Temperature_sensor\itemperature.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\Temperature_sensor\temperature.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="VIA_FreeRTOS_AVRMEGA\src\ATMEGA_FreeRTOS.h">
       <SubType>compile</SubType>
     </Compile>
@@ -330,6 +345,8 @@
     <Folder Include="VIA_FreeRTOS_AVRMEGA\Sensors_code" />
     <Folder Include="VIA_FreeRTOS_AVRMEGA\FreeRTOSTraceDriver\" />
     <Folder Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\ADC" />
+    <Folder Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\Pressure_sensor" />
+    <Folder Include="VIA_FreeRTOS_AVRMEGA\Sensors_code\Temperature_sensor" />
     <Folder Include="VIA_FreeRTOS_AVRMEGA\src\" />
   </ItemGroup>
   <ItemGroup>

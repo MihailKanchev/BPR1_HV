@@ -13,7 +13,8 @@
 #define IADC_DRIVER_H_
 
 void init_adc();
-void get_reading(QueueHandle_t *queue);
+void start_temp_read(int *ptrTemp);
+void start_pressure_read(int *ptrPress);
 
 
 
