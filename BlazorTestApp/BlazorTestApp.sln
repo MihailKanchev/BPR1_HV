@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTestApp", "BlazorTestApp\BlazorTestApp.csproj", "{E3098092-CCAC-4262-A974-BE11036D2F85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BachelorApp", "BachelorApp\BachelorApp.csproj", "{2119CB1E-60F7-4AA5-AE84-3D2085432E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BachelorApp", "BachelorApp\BachelorApp.csproj", "{2119CB1E-60F7-4AA5-AE84-3D2085432E22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
