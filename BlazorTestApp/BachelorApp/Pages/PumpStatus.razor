@@ -3,9 +3,37 @@
 <h3>Pump Status</h3>
 <br>
 <div id="displayStatus">
-    <ul>
-        <li>Have Status items listed here using the list tag? </li>
-    </ul>
+    <p>Potentially display data here...</p>
+</div>
+<!--
+    This would go in the tbody tags with an "at" symbol before the foreach...
+    foreach(var reading in readings)
+    {
+        <tr>
+            <td>reading.pump1StartQuantity</td>
+            <td>reading.pump1OperatingTime</td>
+            ...and so on
+        </tr>
+    }
+-->
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>P1 Start</th>
+                <th>P1 Operating</th>
+                <th>P2 Start</th>
+                <th>P2 Operating</th>
+                <th>Rain in MM</th>
+                <th>Niveau in CM</th>
+                <th>Month</th>
+                <th>Day</th>
+                <th>Hour</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 </div>
 <br>
 <button type="button" class="btn btn-primary">Update List</button>
