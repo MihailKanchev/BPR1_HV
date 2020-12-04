@@ -1,9 +1,9 @@
 /*
- * main.c
- *
- * Created: 11/18/2020 3:11:46 PM
- * Author: Dominika Kubicz
- * Project: Herning Vand Reduction of Supervision
+* main.c
+*
+* Created: 11/18/2020 3:11:46 PM
+* Author: Dominika Kubicz
+* Project: Herning Vand Reduction of Supervision
 */
 
 #include <ATMEGA_FreeRTOS.h>
@@ -84,51 +84,58 @@ void create_tasks_and_semaphores(void)
 /*-----------------------------------------------------------*/
 void temperature( void *pvParameters )
 {
-	initialize_temp(&xQueue);
+	//initialize_temp(&xQueue);
 	while(1){
-		measure_temp();
-		vTaskDelay(6000/portTICK_PERIOD_MS);
+		vTaskDelay(10000/portTICK_PERIOD_MS);
+		//measure_temp();
+		//vTaskDelay(6000/portTICK_PERIOD_MS);
 	}
 }
 
 /*-----------------------------------------------------------*/
 void pressure( void *pvParameters )
 {
-	initialize_pressure(&xQueue);
+	//initialize_pressure(&xQueue);
 	while(1){
-		vTaskDelay(3000/portTICK_PERIOD_MS);
-		measure_pressure();
-		vTaskDelay(3000/portTICK_PERIOD_MS);
+		vTaskDelay(10000/portTICK_PERIOD_MS);
+		//vTaskDelay(3000/portTICK_PERIOD_MS);
+		//measure_pressure();
+		//vTaskDelay(3000/portTICK_PERIOD_MS);
 	}
 }
 
 /*-----------------------------------------------------------*/
 void lorawan( void *pvParameters )
 {
-	struct reading received_reading;
 	initialize_lora(&xQueue);
 	
+	printf("Continue in main!\n");
+
 	lora_driver_resetRn2483(1); // Activate reset line
 	vTaskDelay(2);
 	lora_driver_resetRn2483(0); // Release reset line
 	vTaskDelay(150); // Wait for tranceiver module to wake up after reset
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 	
+	// set to factory default
 	if (lora_driver_rn2483FactoryReset() != LORA_OK)
 	{
 		printf("Can't reset LoRa!\n");
 	}
+	// Configure the module to use the EU868 frequency plan and settings
 	if (lora_driver_configureToEu868() != LORA_OK)
 	{
 		printf("Can't configure to EU868!\n");
 	}
 	
+	// Get the RN2483 modules unique devEUI
 	static char devEui[17]; // It is static to avoid it to occupy stack space in the task
 	if (lora_driver_getRn2483Hweui(devEui) != LORA_OK)
 	{
 		printf("Error when receiving device EUI!\n");
 	}
 	
+	// Set the necessary LoRaWAN parameters for an OTAA join
 	if (lora_driver_setOtaaIdentity(LORA_appEUI,LORA_appKEY,devEui) != LORA_OK)
 	{
 		printf("Error when setting OTAA parameters!\n");
@@ -136,21 +143,27 @@ void lorawan( void *pvParameters )
 	
 	while(1){
 		
+		//if (uxQueueSpacesAvailable(xQueue) == 0){
+			printf("Calling send message!\n");
+			send_measurements();
+		//}
+		vTaskDelay(10000/portTICK_PERIOD_MS);
+		
 	}
 }
 
 /*-----------------------------------------------------------*/
 void initialiseSystem()
-{	
+{
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
-	stdioCreate(ser_USART0);
+	stdio_create(ser_USART0);
 	
 	// Create some tasks
 	create_tasks_and_semaphores();
 	
 	// Initialize drivers
 	display_7seg_init(NULL);
-	display_7seg_power_up();
+	display_7seg_powerUp();
 	
 	//enable interrupts
 	sei();
