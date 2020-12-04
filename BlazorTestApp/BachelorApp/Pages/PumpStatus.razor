@@ -1,4 +1,5 @@
 ﻿@page "/pumpstatus"
+@inject BachelorPageModel model 
 
 <h3>Pump Status</h3>
 <br>
@@ -37,6 +38,15 @@
 </div>
 <br>
 <button type="button" class="btn btn-primary">Update List</button>
-@code {
 
+@code {
+    private Reading reading;
+        //private Reading[] readings;
+        //private BachelorPageModel model;
+
+        protected override Task OnInitializedAsync()
+        {
+            return base.OnInitializedAsync();
+            //No idea...
+        }
 }
