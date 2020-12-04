@@ -1,10 +1,13 @@
 ﻿@page "/pumpstatus"
 @inject BachelorPageModel model 
 
+
 <h3>Pump Status</h3>
 <br>
 <div id="displayStatus">
-    <p>Potentially display data here...</p>
+    <p>
+         Return message: @response
+    </p>
 </div>
 <!--
     This would go in the tbody tags with an "at" symbol before the foreach...
@@ -21,15 +24,51 @@
     <table>
         <thead>
             <tr>
-                <th>P1 Start</th>
-                <th>P1 Operating</th>
-                <th>P2 Start</th>
-                <th>P2 Operating</th>
-                <th>Rain in MM</th>
-                <th>Niveau in CM</th>
-                <th>Month</th>
-                <th>Day</th>
-                <th>Hour</th>
+                <th>
+                    <p>
+                        <input @bind="p1Start" /> P1 Start Quantity: @p1Start
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="p1OperTime" /> P1 Operating Time: @p1OperTime
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="p2Start" /> P2 Start Quantity: @p2Start
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="p2OperTime" /> P2 Operating Time: @p2OperTime
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="rain" /> Rain(mm): @rain
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="niveau" /> Niveau(cm): @niveau
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="month" /> Month: @month
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="day" /> Day: @day
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input @bind="hour" /> Hour: @hour
+                    </p>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -37,16 +76,22 @@
     </table>
 </div>
 <br>
-<button type="button" class="btn btn-primary">Update List</button>
+<button type="button" class="btn btn-primary" @onclick="Request">Update List</button>
 
 @code {
     private Reading reading;
-        //private Reading[] readings;
-        //private BachelorPageModel model;
+    private float p1Start=0, p1OperTime=0, p2Start=0, p2OperTime=0, niveau=0, rain=0;
+    private int month=0, day=0, hour=0;
+    private Task<String> response;
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+        //No idea...
+    }
 
-        protected override Task OnInitializedAsync()
-        {
-            return base.OnInitializedAsync();
-            //No idea...
-        }
+    void Request()
+    {
+        reading = new Reading(p1Start, p1OperTime, p2Start, p2OperTime, niveau, rain, month, day, hour);
+        response = model.PutReadingItemAsync(reading);
+    }
 }

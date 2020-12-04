@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,16 +17,17 @@ namespace BachelorApp
         {
             _clientFactory = clientFactory;
         }
-        public async Task PutReadingItemAsync(Reading reading)
+        public async Task<String> PutReadingItemAsync(Reading reading)
         {
             var client = _clientFactory.CreateClient();
             var readingItemJson = new StringContent(
                 JsonSerializer.Serialize(reading));
 
             using var httpResponse =
-                await client.PutAsync($"", readingItemJson); //needs endpoint
+                await client.PutAsync($"http://127.0.0.1:5000/", readingItemJson); //needs endpoint
 
             httpResponse.EnsureSuccessStatusCode();
+            return httpResponse.ReasonPhrase;
         }
         /*
         public async Task OnGet()  send a get as a "hello world?"

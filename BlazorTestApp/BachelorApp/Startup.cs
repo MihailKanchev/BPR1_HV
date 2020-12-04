@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BachelorApp.Data;
 
 
 namespace BachelorApp
@@ -29,8 +28,8 @@ namespace BachelorApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddHttpClient();
+            services.AddSingleton<BachelorPageModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
