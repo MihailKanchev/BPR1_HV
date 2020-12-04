@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -20,34 +21,38 @@ namespace BachelorApp
         public async Task<String> PutReadingItemAsync(Reading reading)
         {
             var client = _clientFactory.CreateClient();
-            var readingItemJson = new StringContent(
-                JsonSerializer.Serialize(reading));
+            var readingItemJson = new StringContent(JsonSerializer.Serialize(reading));
 
-            using var httpResponse =
-                await client.PutAsync($"http://127.0.0.1:5000/", readingItemJson); //needs endpoint
+            //HttpContent httpContent = new StringContent(JsonSerializer.Serialize<Reading>(reading), Encoding.UTF8, "application/json");
 
-            httpResponse.EnsureSuccessStatusCode();
-            //return httpResponse.ReasonPhrase;
-            var responseString = await httpResponse.Content.ReadAsStringAsync();
-            return responseString;
+            //HttpResponseMessage response = await client.PutAsync($"http://127.0.0.1:5000/", httpContent);
+
+            using var httpResponse = await client.PutAsync($"http://127.0.0.1:5000/", readingItemJson); //needs endpoint
+            
+            var content = httpResponse.Content.ReadAsStringAsync().Result;
+
+            //var answer = JsonSerializer.Deserialize<String>(content);
+
+            return content;
+
         }
-        /*
-        public async Task OnGet()  send a get as a "hello world?"
+        
+        /*public async Task<String> OnGet()
         {
-            var request = new HttpRequestMessage(); //HttpMethod.Get ...
+            var request = new HttpRequestMessage(HttpMethod.Get,$"http://127.0.0.1:5000/"); //HttpMethod.Get ...
 
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
             if(response.IsSuccessStatusCode)
             {
-                //success
+                return response.ToString();
             }
             else
             {
-                //not success
+                return "";
             }
-        }
-        */
+        }*/
+        
     }
 }
