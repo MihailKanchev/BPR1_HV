@@ -28,8 +28,5 @@ namespace BachelorApp
         public int month { get; set; }
         public int day { get; set; }
         public int hour { get; set; }
-
-        //create table with these values across the top maybe?
-
     }
 }

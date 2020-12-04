@@ -80,8 +80,11 @@
 
 @code {
     private Reading reading;
-    private float p1Start=0, p1OperTime=0, p2Start=0, p2OperTime=0, niveau=0, rain=0;
-    private int month=0, day=0, hour=0;
+    //private float p1Start=0, p1OperTime=0, p2Start=0, p2OperTime=0, niveau=0, rain=0;
+    //private int month=0, day=0, hour=0;
+    private float p1Start, p1OperTime, p2Start, p2OperTime, niveau, rain = 0;
+    private int month, day, hour = 0;
+
     private Task<String> response;
     protected override Task OnInitializedAsync()
     {

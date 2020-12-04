@@ -27,7 +27,9 @@ namespace BachelorApp
                 await client.PutAsync($"http://127.0.0.1:5000/", readingItemJson); //needs endpoint
 
             httpResponse.EnsureSuccessStatusCode();
-            return httpResponse.ReasonPhrase;
+            //return httpResponse.ReasonPhrase;
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            return responseString;
         }
         /*
         public async Task OnGet()  send a get as a "hello world?"
