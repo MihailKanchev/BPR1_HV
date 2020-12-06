@@ -23,18 +23,11 @@ namespace BachelorApp
             var client = _clientFactory.CreateClient();
             var readingItemJson = new StringContent(JsonSerializer.Serialize(reading));
 
-            //HttpContent httpContent = new StringContent(JsonSerializer.Serialize<Reading>(reading), Encoding.UTF8, "application/json");
-
-            //HttpResponseMessage response = await client.PutAsync($"http://127.0.0.1:5000/", httpContent);
-
-            using var httpResponse = await client.PutAsync($"http://127.0.0.1:5000/", readingItemJson); //needs endpoint
-            
+            using var httpResponse = await client.PutAsync($"http://127.0.0.1:5000/", readingItemJson);
             var content = httpResponse.Content.ReadAsStringAsync().Result;
-
-            //var answer = JsonSerializer.Deserialize<String>(content);
+            var answer = JsonSerializer.Deserialize<String>(content);
 
             return content;
-
         }
         
         /*public async Task<String> OnGet()

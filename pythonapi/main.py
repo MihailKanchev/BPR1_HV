@@ -1,9 +1,12 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
-import random
+import joblib
+import numpy as np
+import json
 
 app = Flask(__name__)
 api = Api(app)
+model = joblib.load('model.pkl')
 
 forecast_put_args = reqparse.RequestParser()
 forecast_put_args.add_argument("P1StartQuantity", type=float, help="Start quantity of pump 1.")
@@ -20,9 +23,13 @@ forecast_put_args.add_argument("Hour", type=int, help="Hour of the reading (0-23
 class Forecast(Resource):  
     def put(self):
         args = forecast_put_args.parse_args()
-        response = random.choice( ['System operates under norms.', 'The system needs supervision!'] )
-        return response , 201
-    
+        to_list = list(args.values())
+        nparray = np.array(to_list)
+        prediction = model.predict(nparray.reshape(1, -1))
+        proba = model.predict_proba(nparray.reshape(1, -1))
+        answer = prediction + str(proba)
+        return  json.dumps(answer.tolist()), 201
+     
     
 api.add_resource(Forecast, "/")
 if __name__ == "__main__":
