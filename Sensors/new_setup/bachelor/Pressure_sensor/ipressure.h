@@ -11,7 +11,7 @@
 
 void initialize_pressure(QueueHandle_t *ptrQueue);
 void measure_pressure();
-void convert_pressure();
+void send_press_to_queue();
 
 
 #endif /* IPRESSURE_H_ */

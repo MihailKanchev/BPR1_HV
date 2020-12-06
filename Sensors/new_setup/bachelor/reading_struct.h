@@ -10,10 +10,12 @@
 #ifndef READING_STRUCT_H_
 #define READING_STRUCT_H_
 
+#include <stdio.h>
+
 
 struct reading {
 	int readingLabel; // e.g. 0 - temp, 1 - pressure
-	float value; // the converted value read by the sensor
+	uint16_t value; // the converted value read by the sensor
 };
 
 

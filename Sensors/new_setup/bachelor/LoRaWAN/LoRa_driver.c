@@ -10,7 +10,6 @@
 #include "iLoRa_driver.h"
 #include <ihal.h>
 #include <lora_driver.h>
-#include <stdio.h>
 
 #define LED_TASK_PRIORITY 7
 
@@ -51,17 +50,13 @@ void send_measurements(){
 	// put data in the payload
 	lora_driver_payload_t uplinkPayload;
 	
-	uplinkPayload.len = 8; // Length of the actual payload
-	uplinkPayload.port_no = 1; // The LoRaWAN port no to sent the message to
+	uplinkPayload.len = 4; // Length of the actual payload
+	uplinkPayload.port_no = 2; // The LoRaWAN port no to sent the message to
 	
 	uplinkPayload.bytes[0] = 0b11111111;
 	uplinkPayload.bytes[1] = 0b10101010;
 	uplinkPayload.bytes[2] = 0b00000000;
 	uplinkPayload.bytes[3] = 0b11001100;
-	uplinkPayload.bytes[4] = 0b11111111;
-	uplinkPayload.bytes[5] = 0b11100010;
-	uplinkPayload.bytes[6] = 0b00000000;
-	uplinkPayload.bytes[7] = 0b11110000;
 	
 	lora_driver_returnCode_t rc;
 	
