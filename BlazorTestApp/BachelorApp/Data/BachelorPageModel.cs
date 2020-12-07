@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -27,7 +22,7 @@ namespace BachelorApp
             var content = httpResponse.Content.ReadAsStringAsync().Result;
             var answer = JsonSerializer.Deserialize<String>(content);
 
-            return content;
+            return answer;
         }
         
         /*public async Task<String> OnGet()

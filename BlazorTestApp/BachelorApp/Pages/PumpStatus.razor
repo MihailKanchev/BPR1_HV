@@ -82,6 +82,8 @@
         private int month = 7, day = 8, hour = 9;
 
         private String response;
+        private String label;
+        private float probability;
 
         protected override Task OnInitializedAsync()
         {
@@ -92,7 +94,29 @@
         async Task Request()
         {
             reading = new Reading(p1Start, p1OperTime, p2Start, p2OperTime, rain, niveau, month, day, hour);
-           
+            //Response gets updated automatically on the page, when the request is finished
             response = await model.PutReadingItemAsync(reading);
+            //Spliting label and probability after receiving the response
+            SplitLabelAndProbability();
+        }
+
+        void SplitLabelAndProbability() //Splitting the response string into a string label and float probability :.4f
+        {
+            int position = response.IndexOf("[\"");
+            int position1 = response.IndexOf(",");
+            int position2 = response.IndexOf(" ");
+            var label = response.Substring(position + 2, position1 - position - 2);
+            var proba = response.Substring(position1 - position + 2, 6);
+            var proba2 = response.Substring(position2 + 1, 6);
+
+            float value = float.Parse(proba);
+            float value1 = float.Parse(proba2);
+            float probability = 0;
+            if (value < value1)
+                probability = value1;
+            else
+                probability = value;
+
+            response = label + " | " + probability;
         }
     }

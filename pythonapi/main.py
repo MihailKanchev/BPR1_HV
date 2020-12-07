@@ -21,7 +21,8 @@ class Forecast(Resource):
         
         prediction = model.predict(nparray.reshape(1, -1))
         proba = model.predict_proba(nparray.reshape(1, -1))
-        answer = prediction + str(proba)
+        
+        answer = prediction+',' + str(proba[0])
         
         return  json.dumps(answer.tolist()), 201
      
