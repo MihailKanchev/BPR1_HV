@@ -9,22 +9,22 @@ namespace BachelorApp
     {
         public Reading(float p1s, float p1o, float p2s, float p2o, float rain, float niv, int m, int d, int h)
         {
-            pump1StartQuantity = p1s;
-            pump1OperatingTime = p1o;
-            pump2StartQuantity = p2s;
-            pump2OperatingTime = p2o;
-            rainInMM = rain;
-            niveauInCM = niv;
+            P1StartQuantity = p1s;
+            P1OperatingTime = p1o;
+            P2StartQuantity = p2s;
+            P2OperatingTime = p2o;
+            Rain = rain;
+            Niveau = niv;
             month = m;
             day = d;
             hour = h;
         }
-        public float pump1StartQuantity { get; set; }
-        public float pump1OperatingTime { get; set; }
-        public float pump2StartQuantity { get; set; }
-        public float pump2OperatingTime { get; set; }
-        public float rainInMM { get; set; }
-        public float niveauInCM { get; set; }
+        public float P1StartQuantity { get; set; }
+        public float P2StartQuantity { get; set; }
+        public float P1OperatingTime { get; set; }
+        public float P2OperatingTime { get; set; }
+        public float Rain { get; set; }
+        public float Niveau { get; set; }
         public int month { get; set; }
         public int day { get; set; }
         public int hour { get; set; }
