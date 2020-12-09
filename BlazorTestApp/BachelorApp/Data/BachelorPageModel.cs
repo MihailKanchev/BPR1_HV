@@ -41,8 +41,8 @@ namespace BachelorApp
             Console.WriteLine("Connecting ...");
             ws.ConnectAsync(link, CancellationToken.None).Wait();
 
-            Payload payload = new Payload();
-            payload.cmd = "tx";
+            /*Payload payload = new Payload();
+            payload.cmd = "rx";
             payload.EUI = "0004A30B0025A3D5";
             payload.port = 2;
             payload.data = "42";
@@ -50,33 +50,32 @@ namespace BachelorApp
             var request = JsonSerializer.Serialize(payload);
             byte[] bytes = Encoding.ASCII.GetBytes(request);
             Console.WriteLine("Sending initial message ...");
-            ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
+            ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();*/
 
             try
             {
                 using (var ms = new MemoryStream())
                 {
-                    while (ws.State == WebSocketState.Open)
+                    do
                     {
                         WebSocketReceiveResult result;
-                        do
+                        var messageBuffer = WebSocket.CreateClientBuffer(1024, 16);
+                        Console.WriteLine("Receiving...");
+
+                        result = await ws.ReceiveAsync(messageBuffer, CancellationToken.None);
+                        ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
+                        if (result.EndOfMessage && result.MessageType == WebSocketMessageType.Text)
                         {
-                            var messageBuffer = WebSocket.CreateClientBuffer(1024, 16);
-                            Console.WriteLine("Receiving...");
-                            result = await ws.ReceiveAsync(messageBuffer, CancellationToken.None);
-                            ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
-                            if (result.EndOfMessage && result.MessageType == WebSocketMessageType.Text)
-                            {
-                                Console.WriteLine("Deserializing...");
-                                var msgString = Encoding.UTF8.GetString(ms.ToArray());
-                                Console.WriteLine(msgString);
-                                
-                                ms.Seek(0, SeekOrigin.Begin);
-                                ms.Position = 0;
-                            }
+                            Console.WriteLine("Deserializing...");
+                            var msgString = Encoding.UTF8.GetString(ms.ToArray());
+                            Console.WriteLine(msgString);
+
+                            ms.Seek(0, SeekOrigin.Begin);
+                            ms.Position = 0;
                         }
-                        while (true);
                     }
+                    while (ws.State == WebSocketState.Open);
+                    Console.WriteLine("Closing connection ...");
                 }
             }
             catch (InvalidOperationException)
