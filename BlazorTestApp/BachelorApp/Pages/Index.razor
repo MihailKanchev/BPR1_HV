@@ -1,8 +1,17 @@
 ﻿@page "/"
-
+@inject BachelorPageModel model
 <h1>Hello, world!</h1>
 
 <div>
+    <p>@response</p>
     <p>This is the start page for the Herning Vand Bachelor Project.</p>
 </div>
+@code {
+    private String response;
 
+    protected override async Task OnInitializedAsync()
+    {
+        model.CollectSensorData();
+    }
+
+}
