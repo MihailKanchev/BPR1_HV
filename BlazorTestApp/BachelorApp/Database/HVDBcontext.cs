@@ -14,5 +14,6 @@ namespace BachelorApp.Data
         }
 
         public DbSet<Reading> reading { get; set; }
+        public DbSet<SensorData> sensor { get; set; }
     }
 }

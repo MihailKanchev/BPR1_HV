@@ -35,6 +35,7 @@ namespace BachelorApp
             services.AddHttpClient();
             services.AddSingleton<BachelorPageModel>();
             services.AddScoped<ReadingService>();
+            services.AddScoped<SensorDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

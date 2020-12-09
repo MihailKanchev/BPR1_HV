@@ -21,7 +21,6 @@ namespace BachelorApp
         public BachelorPageModel(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
-            CollectSensorData();
         }
         public async Task<String> PutReadingItemAsync(Reading reading)
         {
