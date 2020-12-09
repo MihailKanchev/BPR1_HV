@@ -1,9 +1,7 @@
 ﻿@page "/"
-@inject BachelorPageModel model
 <h1>Hello, world!</h1>
 
 <div>
-    <button type="button" class="btn btn-primary" @onclick="Request">Request</button>
     <p>This is the start page for the Herning Vand Bachelor Project.</p>
 </div>
 @code {
@@ -12,11 +10,6 @@
     protected override async Task OnInitializedAsync()
     {
         //...
-    }
-
-    void Request()
-    {
-        model.CollectSensorData();
     }
 
 }

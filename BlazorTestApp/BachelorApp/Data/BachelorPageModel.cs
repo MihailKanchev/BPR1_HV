@@ -21,6 +21,7 @@ namespace BachelorApp
         public BachelorPageModel(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
+            CollectSensorData();
         }
         public async Task<String> PutReadingItemAsync(Reading reading)
         {
@@ -40,47 +41,48 @@ namespace BachelorApp
             var ws = new ClientWebSocket();
             Console.WriteLine("Connecting ...");
             ws.ConnectAsync(link, CancellationToken.None).Wait();
-
-            /*Payload payload = new Payload();
-            payload.cmd = "rx";
+            /*
+            Payload payload = new Payload();
+            payload.cmd = "tx";
             payload.EUI = "0004A30B0025A3D5";
             payload.port = 2;
             payload.data = "42";
-
+           
             var request = JsonSerializer.Serialize(payload);
-            byte[] bytes = Encoding.ASCII.GetBytes(request);
-            Console.WriteLine("Sending initial message ...");
-            ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();*/
+            byte[] bytes = Encoding.ASCII.GetBytes(request); 
 
+            Console.WriteLine("Sending initial message ...");
+            ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
+            */
             try
             {
                 using (var ms = new MemoryStream())
                 {
-                    do
+                    Console.WriteLine("Listening ...");
+                    while (ws.State == WebSocketState.Open)
                     {
                         WebSocketReceiveResult result;
-                        var messageBuffer = WebSocket.CreateClientBuffer(1024, 16);
-                        Console.WriteLine("Receiving...");
-
-                        result = await ws.ReceiveAsync(messageBuffer, CancellationToken.None);
-                        ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
-                        if (result.EndOfMessage && result.MessageType == WebSocketMessageType.Text)
+                        do
                         {
-                            Console.WriteLine("Deserializing...");
+                            var messageBuffer = WebSocket.CreateClientBuffer(1024, 16);
+                            result = await ws.ReceiveAsync(messageBuffer, CancellationToken.None);
+                            ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
+                        }
+                        while (!result.EndOfMessage);
+                        Console.WriteLine("Message received.");
+                        if (result.MessageType == WebSocketMessageType.Text)
+                        {
                             var msgString = Encoding.UTF8.GetString(ms.ToArray());
                             Console.WriteLine(msgString);
-
-                            ms.Seek(0, SeekOrigin.Begin);
-                            ms.Position = 0;
                         }
+                        ms.Seek(0, SeekOrigin.Begin);
+                        ms.Position = 0;
                     }
-                    while (ws.State == WebSocketState.Open);
-                    Console.WriteLine("Closing connection ...");
                 }
             }
             catch (InvalidOperationException)
             {
-                Console.WriteLine("[WS] Tried to receive message while already reading one.");
+                Console.WriteLine("Oopsie ...");
             }
         }
 
