@@ -7,6 +7,8 @@
 */
 
 #include <ATMEGA_FreeRTOS.h>
+#include <stddef.h>
+#include <status_leds.h>
 #include <semphr.h>
 #include <FreeRTOSTraceDriver.h>
 #include <stdio_driver.h>
@@ -103,6 +105,32 @@ void pressure( void *pvParameters )
 	}
 }
 
+void lora_join(){
+	
+	lora_driver_returnCode_t rc;
+	// Join the LoRaWAN
+	uint8_t maxJoinTriesLeft = 10;
+	
+	do {
+		rc = lora_driver_join(LORA_OTAA);
+		printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
+
+		if ( rc != LORA_ACCEPTED)
+		{
+			// Make the red led pulse to tell something went wrong
+			status_leds_longPuls(led_ST1); // OPTIONAL
+			// Wait 5 sec and lets try again
+			vTaskDelay(pdMS_TO_TICKS(5000UL));
+		}
+		else
+		{
+			send_measurements();
+			break;
+		}
+	} while (--maxJoinTriesLeft);
+	
+}
+
 /*-----------------------------------------------------------*/
 void lorawan( void *pvParameters )
 {
@@ -110,23 +138,25 @@ void lorawan( void *pvParameters )
 	
 	printf("Continue in main!\n");
 
-	lora_driver_resetRn2483(1); // Activate reset line
+	// Hardware reset of LoRaWAN transceiver
+	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
-	lora_driver_resetRn2483(0); // Release reset line
-	vTaskDelay(150); // Wait for tranceiver module to wake up after reset
+	lora_driver_resetRn2483(0);
+	// Give it a chance to wakeup
+	vTaskDelay(150);
+
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
+
 	
-	// set to factory default
-	if (lora_driver_rn2483FactoryReset() != LORA_OK)
-	{
-		printf("Can't reset LoRa!\n");
-	}
-	// Configure the module to use the EU868 frequency plan and settings
-	if (lora_driver_configureToEu868() != LORA_OK)
-	{
-		printf("Can't configure to EU868!\n");
-	}
+	lora_driver_returnCode_t rc;
+	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
+
+	// Factory reset the transceiver
+	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
 	
+	// Configure to EU868 LoRaWAN standards
+	printf("Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
+
 	// Get the RN2483 modules unique devEUI
 	static char devEui[17]; // It is static to avoid it to occupy stack space in the task
 	if (lora_driver_getRn2483Hweui(devEui) != LORA_OK)
@@ -140,11 +170,15 @@ void lorawan( void *pvParameters )
 		printf("Error when setting OTAA parameters!\n");
 	}
 	
+	// Enable Adaptive Data Rate
+	printf("Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
+
+	
 	while(1){
 		
 		//if (uxQueueSpacesAvailable(xQueue) == 0){
 			printf("Calling send message!\n");
-			send_measurements();
+			lora_join();
 		//}
 		vTaskDelay(10000/portTICK_PERIOD_MS);
 		
@@ -156,6 +190,10 @@ void initialiseSystem()
 {
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
 	stdio_create(ser_USART0);
+	
+	hal_create(5); // Must be called first!! LED_TASK_PRIORITY must be a high priority in your system
+	lora_driver_create(1, NULL); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
+
 	
 	// Create some tasks
 	create_tasks_and_semaphores();

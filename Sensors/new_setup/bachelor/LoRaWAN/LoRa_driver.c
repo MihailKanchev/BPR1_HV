@@ -11,7 +11,7 @@
 #include <ihal.h>
 #include <lora_driver.h>
 
-#define LED_TASK_PRIORITY 7
+#define LED_TASK_PRIORITY 5
 
 float temp;
 float press;
@@ -25,9 +25,6 @@ void initialize_lora(QueueHandle_t *ptrQueue){
 	temp = 0;
 	press = 0;
 	
-	hal_create(LED_TASK_PRIORITY); // Must be called first!! LED_TASK_PRIORITY must be a high priority in your system
-	lora_driver_create(ser_USART1, NULL); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
-
 }
 
 void send_measurements(){
@@ -47,6 +44,8 @@ void send_measurements(){
 		//}
 	//}
 	
+	printf("Hello!!!\n");
+	
 	// put data in the payload
 	lora_driver_payload_t uplinkPayload;
 	
@@ -58,14 +57,5 @@ void send_measurements(){
 	uplinkPayload.bytes[2] = 0b00000000;
 	uplinkPayload.bytes[3] = 0b11001100;
 	
-	lora_driver_returnCode_t rc;
-	
-	if ((rc = lora_driver_sendUploadMessage(false, &uplinkPayload)) == LORA_MAC_TX_OK )
-	{
-		printf("MESSAGE SENT!!!\n");
-	}
-	else if (rc == LORA_MAC_RX)
-	{
-		printf("SHOULDN'T BE PRINTED\n");
-	}
+	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &uplinkPayload)));
 }
