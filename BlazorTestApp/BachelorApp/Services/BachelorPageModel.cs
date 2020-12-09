@@ -17,6 +17,7 @@ namespace BachelorApp
     public class BachelorPageModel 
     {
         private readonly IHttpClientFactory _clientFactory;
+        public bool isListening = false;
 
         public BachelorPageModel(IHttpClientFactory clientFactory)
         {
@@ -36,53 +37,59 @@ namespace BachelorApp
 
         public async Task CollectSensorData()
         {
-            Uri link = new Uri("wss://iotnet.teracom.dk/app?token=vnoTQQAAABFpb3RuZXQuY2liaWNvbS5ka45GqovHqK3PVCJypYVMsIw=");
-            var ws = new ClientWebSocket();
-            Console.WriteLine("Connecting ...");
-            ws.ConnectAsync(link, CancellationToken.None).Wait();
-            /*
-            Payload payload = new Payload();
-            payload.cmd = "tx";
-            payload.EUI = "0004A30B0025A3D5";
-            payload.port = 2;
-            payload.data = "42";
-           
-            var request = JsonSerializer.Serialize(payload);
-            byte[] bytes = Encoding.ASCII.GetBytes(request); 
-
-            Console.WriteLine("Sending initial message ...");
-            ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
-            */
-            try
+            if (!isListening)
             {
-                using (var ms = new MemoryStream())
+                isListening = true;
+                Uri link = new Uri("wss://iotnet.teracom.dk/app?token=vnoTQQAAABFpb3RuZXQuY2liaWNvbS5ka45GqovHqK3PVCJypYVMsIw=");
+                var ws = new ClientWebSocket();
+                Console.WriteLine("Connecting ...");
+                ws.ConnectAsync(link, CancellationToken.None).Wait();
+                /*
+                Payload payload = new Payload();
+                payload.cmd = "tx";
+                payload.EUI = "0004A30B0025A3D5";
+                payload.port = 2;
+                payload.data = "42";
+
+                var request = JsonSerializer.Serialize(payload);
+                byte[] bytes = Encoding.ASCII.GetBytes(request); 
+
+                Console.WriteLine("Sending initial message ...");
+                ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
+                */
+                try
                 {
-                    Console.WriteLine("Listening ...");
-                    while (ws.State == WebSocketState.Open)
+                    using (var ms = new MemoryStream())
                     {
-                        WebSocketReceiveResult result;
-                        do
+                        Console.WriteLine("Listening ...");
+                        while (ws.State == WebSocketState.Open)
                         {
-                            var messageBuffer = WebSocket.CreateClientBuffer(1024, 16);
-                            result = await ws.ReceiveAsync(messageBuffer, CancellationToken.None);
-                            ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
+                            WebSocketReceiveResult result;
+                            do
+                            {
+                                var messageBuffer = WebSocket.CreateClientBuffer(1024, 16);
+                                result = await ws.ReceiveAsync(messageBuffer, CancellationToken.None);
+                                ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
+                            }
+                            while (!result.EndOfMessage);
+                            Console.WriteLine("Message received.");
+                            if (result.MessageType == WebSocketMessageType.Text)
+                            {
+                                var msgString = Encoding.UTF8.GetString(ms.ToArray());
+                                Console.WriteLine(msgString);
+                            }
+                            ms.Seek(0, SeekOrigin.Begin);
+                            ms.Position = 0;
                         }
-                        while (!result.EndOfMessage);
-                        Console.WriteLine("Message received.");
-                        if (result.MessageType == WebSocketMessageType.Text)
-                        {
-                            var msgString = Encoding.UTF8.GetString(ms.ToArray());
-                            Console.WriteLine(msgString);
-                        }
-                        ms.Seek(0, SeekOrigin.Begin);
-                        ms.Position = 0;
                     }
                 }
+                catch (InvalidOperationException)
+                {
+                    Console.WriteLine("Oopsie ...");
+                }
+                isListening = false;
             }
-            catch (InvalidOperationException)
-            {
-                Console.WriteLine("Oopsie ...");
-            }
+            
         }
 
         /*public async Task<String> OnGet()
