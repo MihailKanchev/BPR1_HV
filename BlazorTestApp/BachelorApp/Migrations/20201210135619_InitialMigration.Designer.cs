@@ -3,15 +3,17 @@ using System;
 using BachelorApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BachelorApp.Migrations
 {
-    [DbContext(typeof(HVDBcontext))]
-    partial class HVDBcontextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DatabaseContext))]
+    [Migration("20201210135619_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,10 +64,10 @@ namespace BachelorApp.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("reading");
+                    b.ToTable("Readings");
                 });
 
-            modelBuilder.Entity("BachelorApp.Data.SensorData", b =>
+            modelBuilder.Entity("BachelorApp.Data.Sensor", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -83,7 +85,7 @@ namespace BachelorApp.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("sensor");
+                    b.ToTable("Sensors");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BachelorApp
+namespace BachelorApp.Data
 {
     public class BachelorPageModel : IBachelorPageModel
     {

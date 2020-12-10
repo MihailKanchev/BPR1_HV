@@ -9,7 +9,7 @@ namespace BachelorApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "reading",
+                name: "Readings",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -28,11 +28,11 @@ namespace BachelorApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_reading", x => x.id);
+                    table.PrimaryKey("PK_Readings", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "sensor",
+                name: "Sensors",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -43,17 +43,17 @@ namespace BachelorApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_sensor", x => x.id);
+                    table.PrimaryKey("PK_Sensors", x => x.id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "reading");
+                name: "Readings");
 
             migrationBuilder.DropTable(
-                name: "sensor");
+                name: "Sensors");
         }
     }
 }
