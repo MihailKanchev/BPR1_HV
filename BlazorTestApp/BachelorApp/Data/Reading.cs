@@ -3,27 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace BachelorApp
+namespace BachelorApp.Data
 {
     public class Reading
     {
-        public Reading(float p1s, float p1o, float p2s, float p2o, float rain, float niv, int m, int d, int h)
-        {
-            P1StartQuantity = p1s;
-            P1OperatingTime = p1o;
-            P2StartQuantity = p2s;
-            P2OperatingTime = p2o;
-            Rain = rain;
-            Niveau = niv;
-            month = m;
-            day = d;
-            hour = h;
-        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
+        [JsonIgnore]
         public int id { get; set; }
         [Required]
         public float P1StartQuantity { get; set; }
@@ -44,8 +34,10 @@ namespace BachelorApp
         [Required]
         public int hour { get; set; }
         [Required]
+        [JsonIgnore]
         public String label { get; set; }
         [Required]
-        public float prediction { get; set; }
+        [JsonIgnore]
+        public float probability { get; set; }
     }
 }

@@ -1,11 +1,7 @@
 ﻿using BachelorApp.Data;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -14,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BachelorApp
 {
-    public class BachelorPageModel 
+    public class BachelorPageModel : IBachelorPageModel
     {
         private readonly IHttpClientFactory _clientFactory;
         public bool isListening = false;
@@ -35,7 +31,7 @@ namespace BachelorApp
             return answer;
         }
 
-        public async Task CollectSensorData()
+        public async Task CollectSensorDataAsync()
         {
             if (!isListening)
             {
@@ -44,19 +40,7 @@ namespace BachelorApp
                 var ws = new ClientWebSocket();
                 Console.WriteLine("Connecting ...");
                 ws.ConnectAsync(link, CancellationToken.None).Wait();
-                /*
-                Payload payload = new Payload();
-                payload.cmd = "tx";
-                payload.EUI = "0004A30B0025A3D5";
-                payload.port = 2;
-                payload.data = "42";
-
-                var request = JsonSerializer.Serialize(payload);
-                byte[] bytes = Encoding.ASCII.GetBytes(request); 
-
-                Console.WriteLine("Sending initial message ...");
-                ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
-                */
+                
                 try
                 {
                     using (var ms = new MemoryStream())
@@ -91,6 +75,20 @@ namespace BachelorApp
             }
             
         }
+
+        /*
+                Payload payload = new Payload();
+                payload.cmd = "tx";
+                payload.EUI = "0004A30B0025A3D5";
+                payload.port = 2;
+                payload.data = "42";
+
+                var request = JsonSerializer.Serialize(payload);
+                byte[] bytes = Encoding.ASCII.GetBytes(request); 
+
+                Console.WriteLine("Sending initial message ...");
+                ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
+                */
 
         /*public async Task<String> OnGet()
         {

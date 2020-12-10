@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace BachelorApp.Data
+namespace BachelorApp.Database
 {
     public class DatabaseContext : DbContext
     {
@@ -32,6 +32,6 @@ namespace BachelorApp.Data
         public int day { get; set; }
         public int hour { get; set; }
         public float probability { get; set; }
-        public string prediction { get; set; }
+        public string label { get; set; }
     }
 }

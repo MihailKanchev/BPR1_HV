@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject BachelorPageModel model;
+@inject IBachelorPageModel model;
 <h1>Hello, world!</h1>
 
 <div>
@@ -10,7 +10,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        model.CollectSensorData();
+        await model.CollectSensorDataAsync();
     }
 
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BachelorApp.Data
 {
-    public class SensorDataService
+    public class SensorDataService : ISensorDataService
     {
         protected readonly HVDBcontext _dbcontext;
 
@@ -17,6 +17,12 @@ namespace BachelorApp.Data
         public List<SensorData> displayReadings()
         {
             return _dbcontext.sensor.ToList();
+        }
+
+        public void AddReading(SensorData data)
+        {
+            _dbcontext.sensor.Add(data);
+            _dbcontext.SaveChanges();
         }
     }
 }

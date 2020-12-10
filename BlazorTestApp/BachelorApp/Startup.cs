@@ -33,9 +33,9 @@ namespace BachelorApp
             services.AddServerSideBlazor();
             services.AddDbContext<HVDBcontext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
             services.AddHttpClient();
-            services.AddSingleton<BachelorPageModel>();
-            services.AddScoped<ReadingService>();
-            services.AddScoped<SensorDataService>();
+            services.AddSingleton<IBachelorPageModel,BachelorPageModel>();
+            services.AddScoped<IReadingService,ReadingService>();
+            services.AddScoped<ISensorDataService,SensorDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
