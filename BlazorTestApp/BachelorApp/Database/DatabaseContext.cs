@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,24 +17,47 @@ namespace BachelorApp.Database
     }
     public class Sensor
     {
-        public int sensorId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
+        public int id { get; set; }
+        [Required]
         public float temp { get; set; }
-        public float pressure { get; set; }
+        [Required]
+        public float pres { get; set; }
+        [Required]
         public DateTime time { get; set; }
     }
     public class Reading
-    { 
-        public int readingId { get; set; }
-        public float p1StartTime { get; set; }
-        public float p1OperatingTime { get; set; }
-        public float p2StartTime { get; set; }
-        public float p2OperatingTime { get; set; }
-        public float rainInMM { get; set; }
-        public float niveauInCM { get; set; }
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
+        [JsonIgnore]
+        public int id { get; set; }
+        [Required]
+        public float P1StartQuantity { get; set; }
+        [Required]
+        public float P2StartQuantity { get; set; }
+        [Required]
+        public float P1OperatingTime { get; set; }
+        [Required]
+        public float P2OperatingTime { get; set; }
+        [Required]
+        public float Rain { get; set; }
+        [Required]
+        public float Niveau { get; set; }
+        [Required]
         public int month { get; set; }
+        [Required]
         public int day { get; set; }
+        [Required]
         public int hour { get; set; }
+        [Required]
+        [JsonIgnore]
+        public String label { get; set; }
+        [Required]
+        [JsonIgnore]
         public float probability { get; set; }
-        public string label { get; set; }
     }
 }

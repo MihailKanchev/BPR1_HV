@@ -31,7 +31,7 @@ namespace BachelorApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddDbContext<HVDBcontext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+            services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
             services.AddHttpClient();
             services.AddSingleton<IBachelorPageModel,BachelorPageModel>();
             services.AddScoped<IReadingService,ReadingService>();

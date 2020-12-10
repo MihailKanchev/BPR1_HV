@@ -7,8 +7,8 @@ namespace BachelorApp.Data
 {
     public interface ISensorDataService
     {
-        public List<SensorData> displayReadings();
+        public List<Sensor> displayReadings();
 
-        public void AddReading(SensorData data);
+        public void AddReading(Sensor data);
     }
 }

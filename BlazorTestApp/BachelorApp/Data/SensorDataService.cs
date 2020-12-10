@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BachelorApp.Database;
 
 namespace BachelorApp.Data
 {
     public class SensorDataService : ISensorDataService
     {
-        protected readonly HVDBcontext _dbcontext;
+        protected readonly DatabaseContext _dbcontext;
 
-        public SensorDataService(HVDBcontext _db)
+        public SensorDataService(DatabaseContext _db)
         {
             _dbcontext = _db;
         }
 
-        public List<SensorData> displayReadings()
+        public List<Sensor> displayReadings()
         {
-            return _dbcontext.sensor.ToList();
+            return _dbcontext.Sensors.ToList();
         }
 
-        public void AddReading(SensorData data)
+        public void AddReading(Sensor data)
         {
-            _dbcontext.sensor.Add(data);
+            _dbcontext.Sensors.Add(data);
             _dbcontext.SaveChanges();
         }
     }
