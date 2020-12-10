@@ -10,7 +10,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await model.CollectSensorDataAsync();
+        // Open up a sensor socket, to listen for incomming signals
+        model.CollectSensorDataAsync();
     }
 
 }

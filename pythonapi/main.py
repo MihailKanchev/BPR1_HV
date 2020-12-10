@@ -13,7 +13,6 @@ model = joblib.load('model.pkl')
 
 class Forecast(Resource):  
     def put(self):
-        print(request.get_data())
         raw_data = request.get_data()
         
         args = json.loads(raw_data)
