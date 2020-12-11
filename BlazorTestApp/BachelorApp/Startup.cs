@@ -32,6 +32,8 @@ namespace BachelorApp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+            services.AddDbContextFactory<DatabaseContext>(opt =>
+            opt.UseNpgsql($"Data Source = {nameof(DatabaseContext)}.db")); // not sure if properly set up
             services.AddHttpClient();
             services.AddSingleton<IBachelorPageModel,BachelorPageModel>();
             services.AddScoped<IReadingService,ReadingService>();

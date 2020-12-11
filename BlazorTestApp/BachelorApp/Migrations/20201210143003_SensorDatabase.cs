@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BachelorApp.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class SensorDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
