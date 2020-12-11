@@ -7,8 +7,8 @@ namespace BachelorApp.Data
 {
     public interface IReadingService
     {
-        public List<Reading> DisplayReadings();
+        public Task<List<Reading>> DisplayReadings();
 
-        public void AddReading(Reading reading);
+        public Task AddReading(Reading reading);
     }
 }

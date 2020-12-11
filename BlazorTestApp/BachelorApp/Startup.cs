@@ -31,13 +31,15 @@ namespace BachelorApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+            //services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
             services.AddDbContextFactory<DatabaseContext>(opt =>
-            opt.UseNpgsql($"Data Source = {nameof(DatabaseContext)}.db")); // not sure if properly set up
+            opt.UseNpgsql(Configuration.GetConnectionString("DbConnection"))); // not sure if properly set up
             services.AddHttpClient();
             services.AddSingleton<IBachelorPageModel,BachelorPageModel>();
             services.AddScoped<IReadingService,ReadingService>();
             services.AddScoped<ISensorDataService,SensorDataService>();
+            services.AddScoped<DatabaseContext>(p =>
+            p.GetRequiredService<IDbContextFactory<DatabaseContext>>().CreateDbContext());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

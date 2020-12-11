@@ -45,6 +45,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        readings = service.DisplayReadings();
+        readings = await service.DisplayReadings();
     }
 }

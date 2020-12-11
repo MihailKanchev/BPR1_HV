@@ -1,29 +1,40 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 
 namespace BachelorApp.Data
 {
     public class ReadingService : IReadingService
     {
-        protected readonly DatabaseContext _dbcontext;
+        private readonly IDbContextFactory<DatabaseContext> _contextFactory;
 
-        public ReadingService(DatabaseContext _db)
+
+
+        public ReadingService(IDbContextFactory<DatabaseContext> _db)
         {
-            _dbcontext = _db;
+            _contextFactory = _db;
         }
 
-        public List<Reading> DisplayReadings()
+        public async Task<List<Reading>> DisplayReadings()
         {
-            return _dbcontext.Readings.ToList();
+            List<Reading> readings;
+            using var context = _contextFactory.CreateDbContext();
+            {
+                readings = context.Readings.ToList();
+            };
+            
+            return readings;
         }
 
-        public void AddReading(Reading reading)
+        public async Task AddReading(Reading reading)
         {
-            _dbcontext.Readings.Add(reading);
-            _dbcontext.SaveChanges();
+            using var context = _contextFactory.CreateDbContext();
+            context.Readings.Add(reading);
+            await context.SaveChangesAsync();
         }
     }
 }
