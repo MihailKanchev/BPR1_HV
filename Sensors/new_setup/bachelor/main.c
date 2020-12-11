@@ -105,38 +105,10 @@ void pressure( void *pvParameters )
 	}
 }
 
-void lora_join(){
-	
-	lora_driver_returnCode_t rc;
-	// Join the LoRaWAN
-	uint8_t maxJoinTriesLeft = 10;
-	
-	do {
-		rc = lora_driver_join(LORA_OTAA);
-		printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
-
-		if ( rc != LORA_ACCEPTED)
-		{
-			// Make the red led pulse to tell something went wrong
-			status_leds_longPuls(led_ST1); // OPTIONAL
-			// Wait 5 sec and lets try again
-			vTaskDelay(pdMS_TO_TICKS(5000UL));
-		}
-		else
-		{
-			send_measurements();
-			break;
-		}
-	} while (--maxJoinTriesLeft);
-	
-}
-
 /*-----------------------------------------------------------*/
 void lorawan( void *pvParameters )
 {
 	initialize_lora(&xQueue);
-	
-	printf("Continue in main!\n");
 
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
@@ -146,10 +118,6 @@ void lorawan( void *pvParameters )
 	vTaskDelay(150);
 
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
-
-	
-	lora_driver_returnCode_t rc;
-	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
 
 	// Factory reset the transceiver
 	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
@@ -176,11 +144,10 @@ void lorawan( void *pvParameters )
 	
 	while(1){
 		
-		//if (uxQueueSpacesAvailable(xQueue) == 0){
-			printf("Calling send message!\n");
+		//if (uxQueueSpacesAvailable(xQueue) == 0)
 			lora_join();
 		//}
-		vTaskDelay(10000/portTICK_PERIOD_MS);
+		vTaskDelay(30000/portTICK_PERIOD_MS);
 		
 	}
 }

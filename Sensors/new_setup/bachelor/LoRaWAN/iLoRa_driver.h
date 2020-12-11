@@ -14,6 +14,7 @@
 
 void initialize_lora(QueueHandle_t *ptrQueue);
 void send_measurements();
+void lora_join();
 
 
 #endif /* ILORA_DRIVER_H_ */

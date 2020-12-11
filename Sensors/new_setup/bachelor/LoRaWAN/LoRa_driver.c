@@ -27,6 +27,30 @@ void initialize_lora(QueueHandle_t *ptrQueue){
 	
 }
 
+void lora_join(){
+	
+	lora_driver_returnCode_t rc;
+	// Join the LoRaWAN
+	uint8_t maxJoinTriesLeft = 10;
+	
+	do {
+		rc = lora_driver_join(LORA_OTAA);
+		printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
+
+		if ( rc != LORA_ACCEPTED)
+		{
+			// Wait 5 sec and lets try again
+			vTaskDelay(pdMS_TO_TICKS(5000UL));
+		}
+		else
+		{
+			send_measurements();
+			break;
+		}
+	} while (rc != LORA_ACCEPTED);
+	
+}
+
 void send_measurements(){
 	
 	// read two queue entries
