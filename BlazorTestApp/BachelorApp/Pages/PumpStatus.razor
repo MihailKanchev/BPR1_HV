@@ -7,54 +7,88 @@
 
 <h3>Pump Status</h3>
 <br>
-
-<div id="displayStatus">
-    <p>
-        @response
-    </p>
+<div class="row">
+    <div id="displayStatus" class="col-12 h-50">
+        <p>
+            @response
+        </p>
+    </div>
 </div>
-<div id="entryFields">
-    <div id="entryFields2" class="col w-50">
-        <div class="col d-flex">
-            <label>P1 Start Quantity</label>
+<div class="row w-100"><div class="col h-25"></div></div>
+    <div class="row no-gutters">
+<!--P1 Start Quantity-->
+        <div class="col col-lg-3 col-6">
+            <p>P1 Start Quantity</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="p1Start" />
         </div>
-        <div class="col d-flex">
-            <label>P1 Operating Time</label>
+
+<!--P1 Operating Time-->
+        <div class="col col-lg-3 col-6">
+            <p>P1 Operating Time</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="p1OperTime" />
         </div>
-        <div class="col d-flex">
-            <label>P2 Start Quantity</label>
+
+<!--P2 Start Quantity-->
+        <div class="col col-lg-3 col-6">
+            <p>P2 Start Quantity</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="p2Start" />
         </div>
-        <div class="col d-flex">
-            <label>P2 Operating Time</label>
+
+<!--P2 Operating Time-->
+        <div class="col col-lg-3 col-6">
+            <p>P2 Operating Time</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="p2OperTime" />
         </div>
-        <div class="col d-flex">
-            <label>Rain(mm)</label>
+
+<!--Rain(mm)-->
+        <div class="col col-lg-3 col-6">
+            <p>Rain(mm)</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="rain" />
         </div>
-        <div class="col d-flex">
-            <label>Niveau(cm)</label>
+
+<!--Niveau(cm)-->
+        <div class="col col-lg-3 col-6">
+            <p>Niveau(cm)</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="niveau" />
         </div>
-        <div class="col d-flex">
-            <label>Month</label>
+
+<!--Month-->
+        <div class="col col-lg-3 col-6">
+            <p>Month</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="month" />
         </div>
-        <div class="col d-flex">
-            <label>Day</label>
+
+<!--Day-->
+        <div class="col col-lg-3 col-6">
+            <p>Day</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="day" />
         </div>
-        <div class="col d-flex">
-            <label>Hour</label>
+
+<!--Hour-->
+        <div class="col col-lg-3 col-6">
+            <p>Hour</p>
+        </div>
+        <div class="col col-lg-9 col-6">
             <input @bind="hour" />
         </div>
-
     </div>
 
-</div>
 <br>
 <button type="button" class="btn btn-primary" @onclick="Request">Update List</button>
 
