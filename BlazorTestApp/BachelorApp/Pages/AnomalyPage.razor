@@ -1,27 +1,28 @@
 ﻿@page "/anomalies"
-@inject IReadingService service; 
+@using BachelorApp.Services;
+@inject IReadingService service;
 
-    <div class="container">
-        <h3 class="p-3 text-center">List of readings and system state</h3>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>P1 Operating Time</th>
-                    <th>P2 Operating Time</th>
-                    <th>P1 Start Quantity</th>
-                    <th>P2 Start Quantity</th>
-                    <th>Niveau(cm)</th>
-                    <th>Rain(mm)</th>
-                    <th>System State</th>
-                    <th>Probability of state</th>
-                    <th>Month</th>
-                    <th>Day</th>
-                    <th>Hour</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var reading in readings)
-                {
+<div class="container">
+    <h3 class="p-3 text-center">List of readings and system state</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>P1 Operating Time</th>
+                <th>P2 Operating Time</th>
+                <th>P1 Start Quantity</th>
+                <th>P2 Start Quantity</th>
+                <th>Niveau(cm)</th>
+                <th>Rain(mm)</th>
+                <th>System State</th>
+                <th>Probability of state</th>
+                <th>Month</th>
+                <th>Day</th>
+                <th>Hour</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reading in readings)
+            {
                 <tr>
                     <td>@reading.P1OperatingTime</td>
                     <td>@reading.P2OperatingTime</td>
@@ -35,16 +36,16 @@
                     <td>@reading.day</td>
                     <td>@reading.hour</td>
                 </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+</div>
 
 @code {
     private List<Reading> readings;
 
     protected override async Task OnInitializedAsync()
     {
-        readings = service.DisplayReadings();
+        readings = await service.DisplayReadings();
     }
 }

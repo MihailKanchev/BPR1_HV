@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BachelorApp.Data;
+using BachelorApp.Interfaces;
+using BachelorApp.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-
 
 namespace BachelorApp
 {
@@ -31,9 +25,12 @@ namespace BachelorApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+            services.AddDbContextFactory<DatabaseContext>(opt =>
+            opt.UseNpgsql(Configuration.GetConnectionString("DbConnection"))); // not sure if properly set up
+            services.AddScoped<DatabaseContext>(p => p.GetRequiredService<IDbContextFactory<DatabaseContext>>().CreateDbContext());
             services.AddHttpClient();
             services.AddSingleton<IBachelorPageModel,BachelorPageModel>();
+            services.AddSingleton<ILoraSocket, LoraSocket>();
             services.AddScoped<IReadingService,ReadingService>();
             services.AddScoped<ISensorDataService,SensorDataService>();
         }
