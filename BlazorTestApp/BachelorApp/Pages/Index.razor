@@ -1,17 +1,18 @@
 ﻿@page "/"
-@inject IBachelorPageModel model;
+@using BachelorApp.Interfaces;
+@inject ILoraSocket socket;
 <h1>Hello, world!</h1>
 
 <div>
     <p>This is the start page for the Herning Vand Bachelor Project.</p>
 </div>
 @code {
-    private String response;
+    
 
     protected override async Task OnInitializedAsync()
     {
         // Open up a sensor socket, to listen for incomming signals
-        model.CollectSensorDataAsync();
+        
     }
 
 }

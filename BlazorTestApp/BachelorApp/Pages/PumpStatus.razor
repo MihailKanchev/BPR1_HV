@@ -1,140 +1,146 @@
 ﻿@page "/pumpstatus"
+@using BachelorApp.Interfaces;
+@using BachelorApp.Services;
+@using System.Diagnostics;
 @inject IBachelorPageModel model
-@inject IReadingService service; 
+@inject IReadingService service;
 
-    <h3>Pump Status</h3>
-    <br>
-    <div id="displayStatus">
-        <p>
-            Return message: @response
-        </p>
-    </div>
-    <!--
-        This would go in the tbody tags with an "at" symbol before the foreach...
-        foreach(var reading in readings)
-        {
-            <tr>
-                <td>reading.pump1StartQuantity</td>
-                <td>reading.pump1OperatingTime</td>
-                ...and so on
-            </tr>
-        }
-    -->
-    <div>
-        <table>
-            <thead>
-                <tr>
-                    <p>
-                        <input @bind="p1Start" /> P1 Start Quantity: @p1Start
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="p1OperTime" /> P1 Operating Time: @p1OperTime
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="p2Start" /> P2 Start Quantity: @p2Start
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="p2OperTime" /> P2 Operating Time: @p2OperTime
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="rain" /> Rain(mm): @rain
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="niveau" /> Niveau(cm): @niveau
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="month" /> Month: @month
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="day" /> Day: @day
-                    </p>
-                </tr>
-                <tr>
-                    <p>
-                        <input @bind="hour" /> Hour: @hour
-                    </p>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <br>
-    <button type="button" class="btn btn-primary" @onclick="Request">Update List</button>
-
-    @code {
-        private Reading reading;
-        private float p1Start = 1, p1OperTime = 3, p2Start = 2, p2OperTime = 4, niveau = 6, rain = 5;
-        private int month = 7, day = 8, hour = 9;
-
-        private String response;
-        private String label;
-        private float probability;
-
-
-        protected override Task OnInitializedAsync()
-        {
-            return base.OnInitializedAsync();
-            //No idea...
-        }
-
-        async Task Request()
-        {
-            //On request assing the input values to the object
-            reading = new Reading();
-            reading.P1StartQuantity = p1Start;
-            reading.P1OperatingTime = p1OperTime;
-            reading.P2StartQuantity = p2Start;
-            reading.P2OperatingTime = p2OperTime;
-            reading.Rain = rain;
-            reading.Niveau = niveau;
-            reading.month = month;
-            reading.day = day;
-            reading.hour = hour;
-            //Response gets updated automatically on the page, when the request is finished
-            response = await model.PutReadingItemAsync(reading);
-            //Spliting label and probability after receiving the response
-            SplitLabelAndProbability();
-            service.AddReading(reading);
-        }
-
-        void SplitLabelAndProbability() //Splitting the response string into a string label and float probability :.4f
-        {
-            int position = response.IndexOf("[\"");
-            int position1 = response.IndexOf(",");
-            int position2 = response.IndexOf(" ");
-            var label = response.Substring(position + 2, position1 - position - 2);
-            var proba = response.Substring(position1 - position + 2, 6);
-            var proba2 = response.Substring(position2 + 1, 6);
-
-            float value = float.Parse(proba);
-            float value1 = float.Parse(proba2);
-            float probability = 0;
-            if (value < value1)
-                probability = value1;
-            else
-                probability = value;
-            //add prediction to the reading object before saving into database
-            reading.label = label;
-            reading.probability = probability;
-        }
-
-        void SaveReading()
-        {
-            service.AddReading(reading);
-        }
+<h3>Pump Status</h3>
+<br>
+<div id="displayStatus">
+    <p>
+        @response
+    </p>
+</div>
+<!--
+    This would go in the tbody tags with an "at" symbol before the foreach...
+    foreach(var reading in readings)
+    {
+        <tr>
+            <td>reading.pump1StartQuantity</td>
+            <td>reading.pump1OperatingTime</td>
+            ...and so on
+        </tr>
     }
+-->
+<div>
+    <table>
+        <thead>
+            <tr>
+                <p>
+                    <input @bind="p1Start" /> P1 Start Quantity: @p1Start
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="p1OperTime" /> P1 Operating Time: @p1OperTime
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="p2Start" /> P2 Start Quantity: @p2Start
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="p2OperTime" /> P2 Operating Time: @p2OperTime
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="rain" /> Rain(mm): @rain
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="niveau" /> Niveau(cm): @niveau
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="month" /> Month: @month
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="day" /> Day: @day
+                </p>
+            </tr>
+            <tr>
+                <p>
+                    <input @bind="hour" /> Hour: @hour
+                </p>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<br>
+<button type="button" class="btn btn-primary" @onclick="Request">Update List</button>
+
+@code {
+    //Object to send to the python module, same object will be saved with updated values to the database
+    private Reading reading;
+    private float p1Start = 1, p1OperTime = 3, p2Start = 2, p2OperTime = 4, niveau = 6, rain = 5;
+    private int month = 7, day = 8, hour = 9;
+
+    //Response received from the python module (json string)
+    private String response;
+    //Prediction label (Abnormal,Normal)
+    private String label;
+    //Probability of given label being true (float)
+    private float probability;
+
+    //A timer to time the duration of a request
+    private Stopwatch stopWatch = new Stopwatch();
+
+    async Task Request()
+    {
+        //On request assing the input values to the object
+        reading = new Reading();
+        reading.P1StartQuantity = p1Start;
+        reading.P1OperatingTime = p1OperTime;
+        reading.P2StartQuantity = p2Start;
+        reading.P2OperatingTime = p2OperTime;
+        reading.Rain = rain;
+        reading.Niveau = niveau;
+        reading.month = month;
+        reading.day = day;
+        reading.hour = hour;
+
+        stopWatch.Start();
+        //Response gets updated automatically on the page, when the request is finished
+        response = await model.PutReadingItemAsync(reading);
+        stopWatch.Stop();
+
+        //Spliting label and probability after receiving the response
+        SplitLabelAndProbability();
+        await service.AddReading(reading);
+
+        //Display time it took for the request to finish
+        response = "Time of request in seconds: " + stopWatch.Elapsed.TotalSeconds;
+    }
+
+    //Splitting the response string into a string label and float probability :.4f
+    void SplitLabelAndProbability()
+    {
+        int position = response.IndexOf("[\"");
+        int position1 = response.IndexOf(",");
+        int position2 = response.IndexOf(" ");
+        var label = response.Substring(position + 2, position1 - position - 2);
+        var proba = response.Substring(position1 - position + 2, 6);
+        var proba2 = response.Substring(position2 + 1, 6);
+
+        float value = float.Parse(proba);
+        float value1 = float.Parse(proba2);
+        float probability = 0;
+        if (value < value1)
+            probability = value1;
+        else
+            probability = value;
+        //Add prediction to the reading object before saving into database
+        reading.label = label;
+        reading.probability = probability;
+    }
+}

@@ -1,18 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using BachelorApp.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 
 
-namespace BachelorApp.Data
+namespace BachelorApp.Services
 {
     public class ReadingService : IReadingService
     {
         private readonly IDbContextFactory<DatabaseContext> _contextFactory;
-
-
 
         public ReadingService(IDbContextFactory<DatabaseContext> _db)
         {
@@ -33,8 +31,10 @@ namespace BachelorApp.Data
         public async Task AddReading(Reading reading)
         {
             using var context = _contextFactory.CreateDbContext();
-            context.Readings.Add(reading);
-            await context.SaveChangesAsync();
+            {
+                context.Readings.Add(reading);
+                await context.SaveChangesAsync();
+            };
         }
     }
 }

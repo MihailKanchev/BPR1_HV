@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BachelorApp.Data;
+using System;
 using System.Threading.Tasks;
 
-namespace BachelorApp.Data
+namespace BachelorApp.Interfaces
 {
     public interface IBachelorPageModel
     {
-        public Task CollectSensorDataAsync();
-
         public Task<String> PutReadingItemAsync(Reading reading);
     }
 }

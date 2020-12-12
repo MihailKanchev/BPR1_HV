@@ -1,9 +1,8 @@
-﻿using System;
+﻿using BachelorApp.Data;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace BachelorApp.Data
+namespace BachelorApp.Services
 {
     public interface IReadingService
     {
