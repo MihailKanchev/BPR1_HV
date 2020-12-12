@@ -44,7 +44,6 @@ void lora_join(){
 		}
 		else
 		{
-			send_measurements();
 			break;
 		}
 	} while (rc != LORA_ACCEPTED);
@@ -68,18 +67,16 @@ void send_measurements(){
 		//}
 	//}
 	
-	printf("Hello!!!\n");
-	
 	// put data in the payload
 	lora_driver_payload_t uplinkPayload;
 	
 	uplinkPayload.len = 4; // Length of the actual payload
 	uplinkPayload.port_no = 2; // The LoRaWAN port no to sent the message to
 	
-	uplinkPayload.bytes[0] = 0b11111111;
+	uplinkPayload.bytes[0] = 0b00000011;
 	uplinkPayload.bytes[1] = 0b10101010;
-	uplinkPayload.bytes[2] = 0b00000000;
-	uplinkPayload.bytes[3] = 0b11001100;
+	uplinkPayload.bytes[2] = 0b00000010;
+	uplinkPayload.bytes[3] = 0b11110000;
 	
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &uplinkPayload)));
 }

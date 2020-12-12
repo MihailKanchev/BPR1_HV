@@ -1,6 +1,6 @@
 ﻿@page "/pumpstatus"
-@inject BachelorPageModel model
-@using System.Text.Json;
+@inject IBachelorPageModel model
+@inject IReadingService service; 
 
     <h3>Pump Status</h3>
     <br>
@@ -85,6 +85,7 @@
         private String label;
         private float probability;
 
+
         protected override Task OnInitializedAsync()
         {
             return base.OnInitializedAsync();
@@ -93,11 +94,22 @@
 
         async Task Request()
         {
-            reading = new Reading(p1Start, p1OperTime, p2Start, p2OperTime, rain, niveau, month, day, hour);
+            //On request assing the input values to the object
+            reading = new Reading();
+            reading.P1StartQuantity = p1Start;
+            reading.P1OperatingTime = p1OperTime;
+            reading.P2StartQuantity = p2Start;
+            reading.P2OperatingTime = p2OperTime;
+            reading.Rain = rain;
+            reading.Niveau = niveau;
+            reading.month = month;
+            reading.day = day;
+            reading.hour = hour;
             //Response gets updated automatically on the page, when the request is finished
             response = await model.PutReadingItemAsync(reading);
             //Spliting label and probability after receiving the response
             SplitLabelAndProbability();
+            service.AddReading(reading);
         }
 
         void SplitLabelAndProbability() //Splitting the response string into a string label and float probability :.4f
@@ -116,7 +128,13 @@
                 probability = value1;
             else
                 probability = value;
+            //add prediction to the reading object before saving into database
+            reading.label = label;
+            reading.probability = probability;
+        }
 
-            response = label + " | " + probability;
+        void SaveReading()
+        {
+            service.AddReading(reading);
         }
     }

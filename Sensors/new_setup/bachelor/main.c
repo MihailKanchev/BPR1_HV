@@ -18,12 +18,13 @@
 #include <avr/interrupt.h>
 #include <ihal.h>
 #include <lora_driver.h>
+#include <stdbool.h>
 #include "LoRaWAN/iLoRa_driver.h"
 #include "ADC/iADC_driver.h"
 #include "Temperature_sensor/itemperature.h"
 #include "Pressure_sensor/ipressure.h"
 #include "reading_struct.h"
-
+#include "Timer/itimer_driver.h"
 // Drivers
 #include <display_7seg.h>
 
@@ -36,23 +37,15 @@ void temperature( void *pvParameters );
 void pressure( void *pvParameters );
 void lorawan( void *pvParameters );
 
-// define semaphore handle
-SemaphoreHandle_t xTestSemaphore;
-
 //A queue for data
 QueueHandle_t xQueue;
+
+// Timeout flag
+bool timeout_flag;
 
 /*-----------------------------------------------------------*/
 void create_tasks_and_semaphores(void)
 {
-	if ( xTestSemaphore == NULL )  // Check to confirm that the Semaphore has not already been created.
-	{
-		xTestSemaphore = xSemaphoreCreateMutex();  // Create a mutex semaphore.
-		if ( ( xTestSemaphore ) != NULL )
-		{
-			xSemaphoreGive( ( xTestSemaphore ) );  // Make the mutex available for use, by initially "Giving" the Semaphore.
-		}
-	}
 	
 	//creating a queue that can hold two items of size uint16
 	xQueue = xQueueCreate(2,sizeof(struct reading));
@@ -140,14 +133,18 @@ void lorawan( void *pvParameters )
 	
 	// Enable Adaptive Data Rate
 	printf("Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
-
+	
+	//lora_join();
 	
 	while(1){
 		
 		//if (uxQueueSpacesAvailable(xQueue) == 0)
-			lora_join();
+			
 		//}
-		vTaskDelay(30000/portTICK_PERIOD_MS);
+		if(getTimeout()){
+			send_measurements();
+			consumeFlag();
+		}
 		
 	}
 }
@@ -162,7 +159,7 @@ void initialiseSystem()
 	lora_driver_create(1, NULL); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
 
 	
-	// Create some tasks
+	// Create tasks
 	create_tasks_and_semaphores();
 	
 	// Initialize drivers
@@ -171,6 +168,9 @@ void initialiseSystem()
 	
 	//enable interrupts
 	sei();
+	
+	// initialize timer
+	intialize_timer();
 	
 	//start ADC
 	init_adc();
