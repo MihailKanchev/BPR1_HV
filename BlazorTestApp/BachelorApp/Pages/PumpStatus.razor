@@ -7,74 +7,53 @@
 
 <h3>Pump Status</h3>
 <br>
+
 <div id="displayStatus">
     <p>
         @response
     </p>
 </div>
-<!--
-    This would go in the tbody tags with an "at" symbol before the foreach...
-    foreach(var reading in readings)
-    {
-        <tr>
-            <td>reading.pump1StartQuantity</td>
-            <td>reading.pump1OperatingTime</td>
-            ...and so on
-        </tr>
-    }
--->
-<div>
-    <table>
-        <thead>
-            <tr>
-                <p>
-                    <input @bind="p1Start" /> P1 Start Quantity: @p1Start
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="p1OperTime" /> P1 Operating Time: @p1OperTime
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="p2Start" /> P2 Start Quantity: @p2Start
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="p2OperTime" /> P2 Operating Time: @p2OperTime
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="rain" /> Rain(mm): @rain
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="niveau" /> Niveau(cm): @niveau
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="month" /> Month: @month
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="day" /> Day: @day
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="hour" /> Hour: @hour
-                </p>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<div id="entryFields">
+    <div id="entryFields2" class="col w-50">
+        <div class="col d-flex">
+            <label>P1 Start Quantity</label>
+            <input @bind="p1Start" />
+        </div>
+        <div class="col d-flex">
+            <label>P1 Operating Time</label>
+            <input @bind="p1OperTime" />
+        </div>
+        <div class="col d-flex">
+            <label>P2 Start Quantity</label>
+            <input @bind="p2Start" />
+        </div>
+        <div class="col d-flex">
+            <label>P2 Operating Time</label>
+            <input @bind="p2OperTime" />
+        </div>
+        <div class="col d-flex">
+            <label>Rain(mm)</label>
+            <input @bind="rain" />
+        </div>
+        <div class="col d-flex">
+            <label>Niveau(cm)</label>
+            <input @bind="niveau" />
+        </div>
+        <div class="col d-flex">
+            <label>Month</label>
+            <input @bind="month" />
+        </div>
+        <div class="col d-flex">
+            <label>Day</label>
+            <input @bind="day" />
+        </div>
+        <div class="col d-flex">
+            <label>Hour</label>
+            <input @bind="hour" />
+        </div>
+
+    </div>
+
 </div>
 <br>
 <button type="button" class="btn btn-primary" @onclick="Request">Update List</button>

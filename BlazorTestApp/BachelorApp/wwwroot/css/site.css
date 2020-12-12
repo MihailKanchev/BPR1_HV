@@ -5,6 +5,12 @@
     border-style: inset;
     border-color: darkgray;
 }
+#entryFields {
+    width: 100%;
+}
+#entryFields2 {
+ 
+}
 /*End Custom css*/
 
 html, body {

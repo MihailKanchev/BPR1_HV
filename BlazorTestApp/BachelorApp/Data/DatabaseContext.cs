@@ -14,7 +14,6 @@ namespace BachelorApp.Data
         }
         public DbSet<Sensor> Sensors { get; set; }
         public DbSet<Reading> Readings { get; set; }
-        //Need to check if a factory should go here.
     }
     public class Sensor
     {
