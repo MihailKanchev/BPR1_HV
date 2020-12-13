@@ -66,8 +66,8 @@ void start_pressure_read(int *ptrPress)
 //reading the converted value
 ISR(ADC_vect)
 {
-	printf("Interrupt/n");
 	*value = ADC;
-	printf("Converted value: %d\n", *value);
+	printf("ADC converted value: %d\n", *value);
+	vTaskDelay(2);
 	xSemaphoreGive(xADCSemaphore);
 }

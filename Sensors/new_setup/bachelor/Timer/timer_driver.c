@@ -15,6 +15,7 @@ bool timeout_flag;
 
 void update_flag()
 {
+	printf("TIMEOUT!\n");
 	timeout_flag = true;
 }
 
@@ -25,6 +26,7 @@ bool getTimeout()
 
 void consumeFlag()
 {
+	printf("CONSUMED!!!\n");
 	timeout_flag = false;
 }
 
@@ -35,7 +37,7 @@ void intialize_timer()
 	TimeoutTimer = xTimerCreate( "Timeout Timer",
                      /* The timer period in ticks, must be
                      greater than 0. */
-                     1000,
+                     5000,
                      /* The timers will auto-reload themselves
                      when they expire. */
                      pdTRUE,

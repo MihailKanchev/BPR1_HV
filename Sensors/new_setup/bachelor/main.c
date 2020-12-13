@@ -40,9 +40,6 @@ void lorawan( void *pvParameters );
 //A queue for data
 QueueHandle_t xQueue;
 
-// Timeout flag
-bool timeout_flag;
-
 /*-----------------------------------------------------------*/
 void create_tasks_and_semaphores(void)
 {
@@ -78,23 +75,30 @@ void create_tasks_and_semaphores(void)
 /*-----------------------------------------------------------*/
 void temperature( void *pvParameters )
 {
-	//initialize_temp(&xQueue);
+	initialize_temp(&xQueue);
 	while(1){
-		vTaskDelay(10000/portTICK_PERIOD_MS);
+		//if(getTimeout())
+		//{
 		//measure_temp();
-		//vTaskDelay(6000/portTICK_PERIOD_MS);
+		//// wait for LoRa to consume the flag
+		//while(getTimeout()){}
+		//printf("EXITED 2!\n");
+		//}
 	}
 }
 
 /*-----------------------------------------------------------*/
 void pressure( void *pvParameters )
 {
-	//initialize_pressure(&xQueue);
+	initialize_pressure(&xQueue);
 	while(1){
-		vTaskDelay(10000/portTICK_PERIOD_MS);
-		//vTaskDelay(3000/portTICK_PERIOD_MS);
+		//if(getTimeout())
+		//{
 		//measure_pressure();
-		//vTaskDelay(3000/portTICK_PERIOD_MS);
+		//// wait for LoRa to consume the flag
+		//while(getTimeout()){}
+		//printf("EXITED 1!\n");
+		//}
 	}
 }
 
@@ -134,18 +138,13 @@ void lorawan( void *pvParameters )
 	// Enable Adaptive Data Rate
 	printf("Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
 	
-	//lora_join();
+	lora_join();
 	
 	while(1){
-		
-		//if (uxQueueSpacesAvailable(xQueue) == 0)
-			
-		//}
-		if(getTimeout()){
+		if(getTimeout() & (uxQueueSpacesAvailable(xQueue) == 0)){
 			send_measurements();
 			consumeFlag();
 		}
-		
 	}
 }
 
