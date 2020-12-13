@@ -20,7 +20,8 @@ namespace BachelorApp.Services
             List<Sensor> readings;
             using var context = _contextFactory.CreateDbContext();
             {
-                readings = context.Sensors.ToList();
+                readings = await context.Sensors.ToListAsync();
+                //added an await and "Async" to ToList.  it was synchronous without the await.
             };
 
             return readings;
