@@ -15,7 +15,6 @@ bool timeout_flag;
 
 void update_flag()
 {
-	printf("TIMEOUT!\n");
 	timeout_flag = true;
 }
 
@@ -26,7 +25,6 @@ bool getTimeout()
 
 void consumeFlag()
 {
-	printf("CONSUMED!!!\n");
 	timeout_flag = false;
 }
 

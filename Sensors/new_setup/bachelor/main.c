@@ -77,13 +77,14 @@ void temperature( void *pvParameters )
 {
 	initialize_temp(&xQueue);
 	while(1){
-		//if(getTimeout())
-		//{
-		//measure_temp();
-		//// wait for LoRa to consume the flag
-		//while(getTimeout()){}
-		//printf("EXITED 2!\n");
-		//}
+		if(getTimeout())
+		{
+			measure_temp();
+			// wait for LoRa to consume the flag
+			while(getTimeout()){
+				vTaskDelay(1);
+			}
+		}
 	}
 }
 
@@ -92,13 +93,14 @@ void pressure( void *pvParameters )
 {
 	initialize_pressure(&xQueue);
 	while(1){
-		//if(getTimeout())
-		//{
-		//measure_pressure();
-		//// wait for LoRa to consume the flag
-		//while(getTimeout()){}
-		//printf("EXITED 1!\n");
-		//}
+		if(getTimeout())
+		{
+			measure_pressure();
+			// wait for LoRa to consume the flag
+			while(getTimeout()){
+				vTaskDelay(1);
+			}
+		}
 	}
 }
 
@@ -145,6 +147,9 @@ void lorawan( void *pvParameters )
 			send_measurements();
 			consumeFlag();
 		}
+		// let other tasks work
+		vTaskDelay(1);
+		
 	}
 }
 

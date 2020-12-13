@@ -39,7 +39,6 @@ void lora_join(){
 
 		if ( rc != LORA_ACCEPTED)
 		{
-			maxJoinTriesLeft--;
 			// Wait 5 sec and lets try again
 			vTaskDelay(pdMS_TO_TICKS(5000UL));
 		}
@@ -47,7 +46,7 @@ void lora_join(){
 		{
 			break;
 		}
-	} while (maxJoinTriesLeft!=0);
+	} while (--maxJoinTriesLeft);
 	
 }
 
