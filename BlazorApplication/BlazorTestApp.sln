@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTestApp", "BlazorTestApp\BlazorTestApp.csproj", "{E3098092-CCAC-4262-A974-BE11036D2F85}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BachelorApp", "BachelorApp\BachelorApp.csproj", "{2119CB1E-60F7-4AA5-AE84-3D2085432E22}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E3098092-CCAC-4262-A974-BE11036D2F85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3098092-CCAC-4262-A974-BE11036D2F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3098092-CCAC-4262-A974-BE11036D2F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3098092-CCAC-4262-A974-BE11036D2F85}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2119CB1E-60F7-4AA5-AE84-3D2085432E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2119CB1E-60F7-4AA5-AE84-3D2085432E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2119CB1E-60F7-4AA5-AE84-3D2085432E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
