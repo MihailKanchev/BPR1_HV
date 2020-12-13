@@ -2,80 +2,93 @@
 @using BachelorApp.Interfaces;
 @using BachelorApp.Services;
 @using System.Diagnostics;
-@inject IBachelorPageModel model
+@inject IBachelorPageModel model;
 @inject IReadingService service;
 
 <h3>Pump Status</h3>
 <br>
-<div id="displayStatus">
-    <p>
-        @response
-    </p>
+<div class="row">
+    <div id="displayStatus" class="col-12 h-50">
+        <p>
+            @response
+        </p>
+    </div>
 </div>
-<!--
-    This would go in the tbody tags with an "at" symbol before the foreach...
-    foreach(var reading in readings)
-    {
-        <tr>
-            <td>reading.pump1StartQuantity</td>
-            <td>reading.pump1OperatingTime</td>
-            ...and so on
-        </tr>
-    }
--->
-<div>
-    <table>
-        <thead>
-            <tr>
-                <p>
-                    <input @bind="p1Start" /> P1 Start Quantity: @p1Start
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="p1OperTime" /> P1 Operating Time: @p1OperTime
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="p2Start" /> P2 Start Quantity: @p2Start
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="p2OperTime" /> P2 Operating Time: @p2OperTime
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="rain" /> Rain(mm): @rain
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="niveau" /> Niveau(cm): @niveau
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="month" /> Month: @month
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="day" /> Day: @day
-                </p>
-            </tr>
-            <tr>
-                <p>
-                    <input @bind="hour" /> Hour: @hour
-                </p>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
+<div class="row w-100"><div class="col h-25"></div></div>
+    <div class="row no-gutters">
+<!--P1 Start Quantity-->
+        <div class="col col-lg-3 col-6">
+            <p>P1 Start Quantity</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="p1Start" />
+        </div>
+
+<!--P1 Operating Time-->
+        <div class="col col-lg-3 col-6">
+            <p>P1 Operating Time</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="p1OperTime" />
+        </div>
+
+<!--P2 Start Quantity-->
+        <div class="col col-lg-3 col-6">
+            <p>P2 Start Quantity</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="p2Start" />
+        </div>
+
+<!--P2 Operating Time-->
+        <div class="col col-lg-3 col-6">
+            <p>P2 Operating Time</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="p2OperTime" />
+        </div>
+
+<!--Rain(mm)-->
+        <div class="col col-lg-3 col-6">
+            <p>Rain(mm)</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="rain" />
+        </div>
+
+<!--Niveau(cm)-->
+        <div class="col col-lg-3 col-6">
+            <p>Niveau(cm)</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="niveau" />
+        </div>
+
+<!--Month-->
+        <div class="col col-lg-3 col-6">
+            <p>Month</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="month" />
+        </div>
+
+<!--Day-->
+        <div class="col col-lg-3 col-6">
+            <p>Day</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="day" />
+        </div>
+
+<!--Hour-->
+        <div class="col col-lg-3 col-6">
+            <p>Hour</p>
+        </div>
+        <div class="col col-lg-9 col-6">
+            <input @bind="hour" />
+        </div>
+    </div>
+
 <br>
 <button type="button" class="btn btn-primary" @onclick="Request">Update List</button>
 

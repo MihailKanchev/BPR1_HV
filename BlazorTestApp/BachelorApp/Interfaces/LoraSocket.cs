@@ -75,11 +75,14 @@ namespace BachelorApp.Interfaces
 
             float temp = ConvertIntToTemperature(data1);
             float pres = ConvertIntToPressure(data2);
+
             Sensor reading = new Sensor();
             reading.time = time;
             reading.temp = temp;
             reading.pres = pres;
+
             service.AddReading(reading);
+
             Console.WriteLine(time + " : " + data1 + ", " + data2);
         }
 

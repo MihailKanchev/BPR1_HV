@@ -23,6 +23,7 @@ namespace BachelorApp.Services
             using var context = _contextFactory.CreateDbContext();
             {
                 readings = context.Readings.ToList();
+                //added an await and "Async" to ToList.  it was synchronous without the await.
             };
             
             return readings;
