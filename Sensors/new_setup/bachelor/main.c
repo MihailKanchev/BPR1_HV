@@ -182,9 +182,9 @@ void initialiseSystem()
 
 /*-----------------------------------------------------------*/
 int main(void)
-{	initialiseSystem(); // Must be done as the very first thing!!
+{	initialiseSystem();
 	printf("Program Started!!\n");
-	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
+	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler
 
 	/* Replace with your application code */
 	while (1)

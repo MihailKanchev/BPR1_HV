@@ -34,8 +34,9 @@ void intialize_timer()
 	
 	TimeoutTimer = xTimerCreate( "Timeout Timer",
                      /* The timer period in ticks, must be
-                     greater than 0. */
-                     5000,
+                     greater than 0. Current value is set to around
+					 10min*/
+                     50000,
                      /* The timers will auto-reload themselves
                      when they expire. */
                      pdTRUE,
