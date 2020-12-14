@@ -37,5 +37,14 @@ namespace BachelorApp.Services
                 await context.SaveChangesAsync();
             };
         }
+
+        public async Task RemoveReading(Reading reading)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            {
+                context.Readings.Remove(reading);
+                await context.SaveChangesAsync();
+            };
+        }
     }
 }

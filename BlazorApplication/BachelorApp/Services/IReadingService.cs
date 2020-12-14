@@ -9,5 +9,7 @@ namespace BachelorApp.Services
         public Task<List<Reading>> DisplayReadings();
 
         public Task AddReading(Reading reading);
+
+        public Task RemoveReading(Reading reading);
     }
 }

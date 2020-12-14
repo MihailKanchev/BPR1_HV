@@ -1,18 +1,186 @@
 ﻿@page "/"
 @using BachelorApp.Interfaces;
-@inject ILoraSocket socket;
-<h1>Hello, world!</h1>
+@using BachelorApp.Services;
+@using System.Diagnostics;
 
-<div>
-    <p>This is the start page for the Herning Vand Bachelor Project.</p>
-</div>
-@code {
+@inject ILoraSocket socket;
+@inject IReadingService readingService;
+@inject ISensorDataService sensorService;
+@inject IBachelorPageModel model;
+
+<!--Reading table-->
+    <div class="container">
+        <h3 class="p-3 text-center">List of readings and pump state</h3>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>P1 Operating Time</th>
+                    <th>P2 Operating Time</th>
+                    <th>P1 Start Quantity</th>
+                    <th>P2 Start Quantity</th>
+                    <th>Niveau(cm)</th>
+                    <th>Rain(mm)</th>
+                    <th>Month</th>
+                    <th> Day </th>
+                    <th>Hour</th>
+                    <th>System State</th>
+                    <th>Probability of state</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reading in readings)
+                {
+                    <tr class="pt-0 pb-0">
+                        <td><button type="button" class="btn btn-danger pt-0 pb-0" @onclick="(() =>Delete(reading))">x</button></td>
+                        <td>@reading.P1OperatingTime</td>
+                        <td>@reading.P2OperatingTime</td>
+                        <td>@reading.P1StartQuantity</td>
+                        <td>@reading.P2StartQuantity</td>
+                        <td>@reading.Niveau</td>
+                        <td>@reading.Rain</td>
+                        <td>@reading.month</td>
+                        <td>@reading.day</td>
+                        <td>@reading.hour</td>
+                        <td>@reading.label</td>
+                        <td>@reading.probability</td>
+                    </tr>
+                }
+                <tr class="pt-0 pb-0">
+                    <td><button type="button" class="btn btn-primary pt-0 pb-0" @onclick="Request">+</button></td>
+                    <td><input class="form-control" @bind="p1OperTime" /></td>
+                    <td><input class="form-control" @bind="p2OperTime" /></td>
+                    <td><input class="form-control" @bind="p1Start" /></td>
+                    <td><input class="form-control" @bind="p2Start" /></td>
+                    <td><input class="form-control" @bind="niveau" /></td>
+                    <td><input class="form-control" @bind="rain" /></td>
+                    <td><input class="form-control" @bind="month" /></td>
+                    <td><input class="form-control" @bind="day" /></td>
+                    <td><input class="form-control" @bind="hour" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div id="displayStatus" class="col-12 h-50">
+                <p>
+                    @response
+                </p>
+            </div>
+        </div>
+        
+    </div>
+<!--Sensor data table-->
+    <div class="container">
+        <h3 class="p-3 text-center">List of sensor data</h3>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Temperature C*</th>
+                    <th>Pressure Pa</th>
+                    <th>Date and time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reading in sensors)
+                {
+                    <tr class="pt-0 pb-0">
+                        <td>@reading.temp</td>
+                        <td>@reading.pres</td>
+                        <td>@reading.time</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary pt-0 pb-0" @onclick="GetList">Request LoRa cache</button>
+    </div>
     
+
+@code {
+    //List oif table objects from the database
+    private List<Reading> readings;
+    private List<Sensor> sensors = new List<Sensor>();
+    //Object to send to the python module, same object will be saved with updated values to the database
+    private Reading reading;
+    private float p1Start = 1, p1OperTime = 3, p2Start = 2, p2OperTime = 4, niveau = 6, rain = 5;
+    private int month = 7, day = 8, hour = 9;
+
+    //Response received from the python module (json string)
+    private String response;
+    //Prediction label (Abnormal,Normal)
+    private String label;
+    //Probability of given label being true (float)
+    private float probability;
+
+    //A timer to time the duration of a request
+    private Stopwatch stopWatch = new Stopwatch();
 
     protected override async Task OnInitializedAsync()
     {
-        // Open up a sensor socket, to listen for incomming signals
-        
+        readings = await readingService.DisplayReadings();
+    }
+
+    //Get sensor reading list from the LoRa
+    void GetList()
+    {
+        sensors = socket.GetList();
+    }
+
+    async Task Request()
+    {
+        //On request assing the input values to the object
+        reading = new Reading();
+        reading.P1StartQuantity = p1Start;
+        reading.P1OperatingTime = p1OperTime;
+        reading.P2StartQuantity = p2Start;
+        reading.P2OperatingTime = p2OperTime;
+        reading.Rain = rain;
+        reading.Niveau = niveau;
+        reading.month = month;
+        reading.day = day;
+        reading.hour = hour;
+
+        stopWatch.Start();
+        //Response gets updated automatically on the page, when the request is finished
+        response = await model.PutReadingItemAsync(reading);
+        stopWatch.Stop();
+
+        //Spliting label and probability after receiving the response
+        SplitLabelAndProbability();
+        await readingService.AddReading(reading);
+        readings = await readingService.DisplayReadings();
+
+        //Display time it took for the request to finish
+        response = "Time of request in seconds: " + stopWatch.Elapsed.TotalSeconds;
+        stopWatch.Reset();
+    }
+
+    async Task Delete(Reading reading)
+    {
+        await readingService.RemoveReading(reading);
+        readings = await readingService.DisplayReadings();
+    }
+
+    //Splitting the response string into a string label and float probability :.4f
+    void SplitLabelAndProbability()
+    {
+        int position = response.IndexOf("[\"");
+        int position1 = response.IndexOf(",");
+        int position2 = response.IndexOf(" ");
+        var label = response.Substring(position + 2, position1 - position - 2);
+        var proba = response.Substring(position1 - position + 2, 6);
+        var proba2 = response.Substring(position2 + 1, 6);
+
+        float value = float.Parse(proba);
+        float value1 = float.Parse(proba2);
+        float probability = 0;
+        if (value < value1)
+            probability = value1;
+        else
+            probability = value;
+        //Add prediction to the reading object before saving into database
+        reading.label = label;
+        reading.probability = probability;
     }
 
 }

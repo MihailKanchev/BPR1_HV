@@ -9,5 +9,7 @@ namespace BachelorApp.Services
         public Task<List<Sensor>> displayReadings();
 
         public Task AddReading(Sensor data);
+
+        public Task AddReadingList(List<Sensor> sensors);
     }
 }

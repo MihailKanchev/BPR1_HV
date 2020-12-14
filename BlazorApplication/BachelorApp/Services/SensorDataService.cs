@@ -35,5 +35,18 @@ namespace BachelorApp.Services
                 await context.SaveChangesAsync();
             };
         }
+
+        public async Task AddReadingList(List<Sensor> sensors)
+        {
+            
+            using var context = _contextFactory.CreateDbContext();
+            {
+                foreach (Sensor sensor in sensors)
+                {
+                    context.Sensors.Add(sensor);
+                }
+                await context.SaveChangesAsync();
+            };
+        }
     }
 }
