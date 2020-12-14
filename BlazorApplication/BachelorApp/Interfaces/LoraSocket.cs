@@ -100,8 +100,8 @@ namespace BachelorApp.Interfaces
                 //float pres = ConvertIntToPressure(data2);
                 Sensor reading = new Sensor();
                 reading.time = time;
-                reading.temp = data1;
-                reading.pres = data2;
+                reading.temp = ConvertIntToTemperature(data1);
+                reading.pres = ConvertIntToPressure(data2);
                 if(data1<900)
                     sensors.Add(reading);
             }
@@ -140,10 +140,16 @@ namespace BachelorApp.Interfaces
         }
         public float ConvertIntToTemperature(int temp)
         {
-            return 1; // Add function to transform int into a temp float
+            double slope = 0.02110582;
+            double inter = -3.06716296;
+            float tem;
+            tem = (int)((temp * slope) + inter);
+            return tem;
         }
         public float ConvertIntToPressure(int press)
         {
+            double voltage = 5 / 1024;
+            double pascal = (3 * (voltage - 0.44)) * 1000000;
             return 1; // Add function to transform int into a pres float
         }
     }
