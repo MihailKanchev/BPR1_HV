@@ -77,5 +77,14 @@ void send_measurements(){
 		}
 	}
 	
-	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &uplinkPayload)));
+	lora_driver_returnCode_t ret;
+	
+	for(int i = 0; i<5; i++){
+		ret = lora_driver_sendUploadMessage(false, &uplinkPayload);
+		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(ret));
+		if(ret==LORA_MAC_RX || ret==LORA_MAC_TX_OK){
+			break;
+		}
+	}
+	
 }
