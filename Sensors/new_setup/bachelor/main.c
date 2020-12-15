@@ -50,25 +50,25 @@ void create_tasks_and_semaphores(void)
 	xTaskCreate(
 	temperature
 	,  (const portCHAR *)"temperature_sensor"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+	,  configMINIMAL_STACK_SIZE 
 	,  NULL
-	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  2  // Priority, with 3 being the highest
 	,  NULL );
 
 	xTaskCreate(
 	pressure
 	,  (const portCHAR *)"pressure_sensor"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+	,  configMINIMAL_STACK_SIZE 
 	,  NULL
-	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  2  // Priority, with 3 being the highest
 	,  NULL );
 	
 	xTaskCreate(
 	lorawan
 	,  (const portCHAR *)"lorawan_handler"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+	,  configMINIMAL_STACK_SIZE
 	,  NULL
-	,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  3  // Priority, with 3 being the highest
 	,  NULL );
 }
 
@@ -159,16 +159,12 @@ void initialiseSystem()
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
 	stdio_create(ser_USART0);
 	
-	hal_create(5); // Must be called first!! LED_TASK_PRIORITY must be a high priority in your system
-	lora_driver_create(1, NULL); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
+	// Initializing parameter for LoRa
+	hal_create(5); 
+	lora_driver_create(1, NULL); 
 
-	
 	// Create tasks
 	create_tasks_and_semaphores();
-	
-	// Initialize drivers
-	display_7seg_init(NULL);
-	display_7seg_powerUp();
 	
 	//enable interrupts
 	sei();
