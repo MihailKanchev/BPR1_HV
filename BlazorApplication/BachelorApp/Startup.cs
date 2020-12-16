@@ -31,8 +31,8 @@ namespace BachelorApp
             services.AddHttpClient();
             services.AddSingleton<IBachelorPageModel,BachelorPageModel>();
             services.AddSingleton<ILoraSocket, LoraSocket>();
-            services.AddScoped<IReadingService,ReadingService>();
-            services.AddScoped<ISensorDataService,SensorDataService>();
+            services.AddSingleton<IReadingService,ReadingService>();
+            services.AddSingleton<ISensorDataService,SensorDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

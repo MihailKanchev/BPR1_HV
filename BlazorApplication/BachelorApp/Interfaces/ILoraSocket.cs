@@ -1,5 +1,5 @@
 ﻿using BachelorApp.Data;
-using System;
+using BachelorApp.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +7,8 @@ namespace BachelorApp.Interfaces
 {
     public interface ILoraSocket
     {
-        public Task OpenSocketAsync();
+        public ISensorDataService service { get; set; }
+        public Task OpenSocket();
         public List<Sensor> GetList();
     }
 }
