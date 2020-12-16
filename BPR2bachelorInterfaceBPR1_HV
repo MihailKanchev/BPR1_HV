@@ -1,0 +1,272 @@
+[33mcommit cd6cc23a9a8a46a305faf5bb9b7e1dcea8f68825[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: adelkesc <256523@via.dk>
+Date:   Sun Dec 13 14:43:21 2020 +0100
+
+    Working on diagrams.
+
+[33mcommit 644a563ab9bdade0ad66f2683c53fa73766e1cc2[m
+Author: adelkesc <256523@via.dk>
+Date:   Sun Dec 13 04:40:10 2020 +0100
+
+    Tried to update ER diagram
+
+[33mcommit 644918a14a0043f5281df9c16462e57b9ee25b2c[m
+Author: adelkesc <256523@via.dk>
+Date:   Sun Dec 13 04:38:25 2020 +0100
+
+    Updated class diagram and some code.
+
+[33mcommit ddebcf684ca57aaacb2f7b0b686efba40638db1a[m
+Author: adelkesc <256523@via.dk>
+Date:   Sun Dec 13 00:30:11 2020 +0100
+
+    Got bootstrap columns to work.
+
+[33mcommit f362a8ef4e4c591bda29bda024830838b1034ce1[m
+Author: adelkesc <256523@via.dk>
+Date:   Sat Dec 12 22:48:02 2020 +0100
+
+    Working on UI
+
+[33mcommit febde722cf03374303d979506ff04164d2bddfe0[m
+Merge: 358b344 be2efa4
+Author: Dominika98 <dominika.kubicz@gmail.com>
+Date:   Sat Dec 12 15:13:43 2020 +0100
+
+    Merge branch 'master' of https://github.com/MihailKanchev/BPR1_HV
+
+[33mcommit 358b34476e036bfe85b7ecfb38d41db411d2e6ba[m
+Merge: 8f8a1cb 108100e
+Author: Dominika98 <dominika.kubicz@gmail.com>
+Date:   Sat Dec 12 15:13:34 2020 +0100
+
+    Timer added
+
+[33mcommit be2efa4180671a2ba29d655414c28be7149e2b2a[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Sat Dec 12 14:13:19 2020 +0100
+
+    Reorganized project structure
+
+[33mcommit fc77d951762aa7b6087efc693f2203f5f59970dd[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Fri Dec 11 15:22:49 2020 +0100
+
+    DbContextFactory is set up!
+
+[33mcommit 3c19413ffa56d6178adbbfc78d5db4a18ea3e1be[m
+Author: adelkesc <256523@via.dk>
+Date:   Fri Dec 11 14:17:47 2020 +0100
+
+    Updated DbContext factory.
+
+[33mcommit 8f8a1cb314030fd47ff430ebde355a3f7941d7ac[m
+Author: Dominika98 <dominika.kubicz@gmail.com>
+Date:   Fri Dec 11 08:31:18 2020 +0100
+
+    Code organizing
+
+[33mcommit 108100e155ff8b9bf139fd5c0d444994e6ba278a[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Thu Dec 10 14:57:32 2020 +0100
+
+    Exceptions are handled.
+
+[33mcommit 497fa9ed919925cb61de67b3d9440c21c655c549[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Thu Dec 10 14:39:42 2020 +0100
+
+    Using DatabaseContext
+
+[33mcommit a2140c3ed8d84effae29147dff01bf2932a4443c[m
+Author: adelkesc <256523@via.dk>
+Date:   Thu Dec 10 14:22:58 2020 +0100
+
+    Removed duplicate class.
+
+[33mcommit 73023551dd824769811a8f41938fb194f0c4c551[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Thu Dec 10 12:52:04 2020 +0100
+
+    Minor adjustment to sensor socket.
+
+[33mcommit 7c621f0b8ffe0e113514f4238ffd31e98cce31cd[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Thu Dec 10 12:48:53 2020 +0100
+
+    Successfully executing,  saving and displaying predictions.
+
+[33mcommit 096ca422558aeefbe665027ce4dceebd0b5712ba[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Wed Dec 9 22:17:59 2020 +0100
+
+    Open sensor socket listener on index page initialization
+
+[33mcommit d43a1ed07bbf02ca2be82d164842e8bd04940ca2[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Wed Dec 9 21:57:52 2020 +0100
+
+    Added sensor table
+
+[33mcommit 1b73d7e277539442486d4e869a1a6f550e01daf3[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Wed Dec 9 21:30:17 2020 +0100
+
+    Added db context template. Changed the socket to open with app start.
+
+[33mcommit 1612b2fd07efe442ce6deef191a8a0341b62ed65[m
+Author: adelkesc <256523@via.dk>
+Date:   Wed Dec 9 19:23:39 2020 +0100
+
+    Updated class and sequence diagrams.
+
+[33mcommit e5fd495140d2fb99874c8dcdcd8f014b58ffa0ed[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Wed Dec 9 13:15:00 2020 +0100
+
+    Slight LoRa interface adjustments.
+
+[33mcommit c8ddb23cf23108bec0856ced6655ca7c71f8bbb1[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Wed Dec 9 12:09:13 2020 +0100
+
+    Added LoRa connection to Index page.
+    
+    Opened up a web socket listener loop to listen for data.
+
+[33mcommit d1f82de830436963b12a74c564452f04d80e7149[m
+Author: Dominika98 <dominika.kubicz@gmail.com>
+Date:   Wed Dec 9 10:09:48 2020 +0100
+
+    Almost working LoRa
+
+[33mcommit bd78f0fa4754fb0466eb6c0a0d7eee79329d73f6[m
+Author: adelkesc <256523@via.dk>
+Date:   Tue Dec 8 04:48:00 2020 +0100
+
+    Added sequence diagram in Design folder.
+
+[33mcommit d9c9e6803e4de39c0f2b7e26ecbdff8c92600ccc[m
+Merge: eddee24 0066329
+Author: adelkesc <256523@via.dk>
+Date:   Tue Dec 8 04:32:02 2020 +0100
+
+    Merge branch 'master' of https://github.com/MihailKanchev/BPR1_HV
+
+[33mcommit eddee2460810d64508acca86df63591e469a631e[m
+Author: adelkesc <256523@via.dk>
+Date:   Tue Dec 8 04:31:56 2020 +0100
+
+    Updated class diagram.
+
+[33mcommit 00663296336b6a168f349119eb3fac94bdeee17a[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Mon Dec 7 16:05:15 2020 +0100
+
+    Splited response into string and float
+
+[33mcommit 05c0123e3c8857eaccbcd8dfef49cf0378d24e54[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Mon Dec 7 14:21:28 2020 +0100
+
+    Made a prediction based on values from blazor, then displayed it to blazor
+
+[33mcommit acb7640a46df74012d346ba4ff53064e5911f492[m
+Author: adelkesc <256523@via.dk>
+Date:   Mon Dec 7 01:44:59 2020 +0100
+
+    Uploaded database documentation.
+
+[33mcommit 47d33ff27c37ba4b20ea0f99a93b9bc18d830449[m
+Author: adelkesc <256523@via.dk>
+Date:   Mon Dec 7 01:42:51 2020 +0100
+
+    Added packages for PostgreSQL and EF Core.
+
+[33mcommit 09775dae3b1a88156faa67c2adfaae4f6b025c82[m
+Merge: cca4ba6 ea206d2
+Author: adelkesc <256523@via.dk>
+Date:   Sun Dec 6 20:29:59 2020 +0100
+
+    Merge branch 'master' of https://github.com/MihailKanchev/BPR1_HV
+
+[33mcommit cca4ba6e78de98faad1baa7977d1e251d00f0723[m
+Author: adelkesc <256523@via.dk>
+Date:   Sun Dec 6 20:29:53 2020 +0100
+
+    Began adding ef core.
+
+[33mcommit ea206d25b4509798615257dd50869933c87e5212[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Sun Dec 6 20:28:27 2020 +0100
+
+    Hooked up algorithm to python api
+
+[33mcommit 6e797cc09f240f86f5baa1fe800d307cc2bbbe9c[m
+Author: Dominika98 <dominika.kubicz@gmail.com>
+Date:   Sun Dec 6 14:09:21 2020 +0100
+
+    Switched sending floats to ints
+
+[33mcommit 19f146f5752e222333c832f99b3e45139c75da3e[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Fri Dec 4 17:07:54 2020 +0100
+
+    Received a response from the python api succesfully.
+
+[33mcommit e1806787d16ce67897fca823babe2ef5ffcb953e[m
+Author: adelkesc <256523@via.dk>
+Date:   Fri Dec 4 14:22:18 2020 +0100
+
+    Tried fix to put request.
+
+[33mcommit 0ba9900b22363a9c9bb197ca1859821eb65aa5ad[m
+Merge: fe4ef4a c1c7279
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Fri Dec 4 12:48:07 2020 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit fe4ef4a43683abf33c6ba8fb0a649c6829e941f4[m
+Author: Mihail Kanchev <colty.gaming@gmail.com>
+Date:   Fri Dec 4 12:48:00 2020 +0100
+
+    Established connection to python api. Can't get response message yet.
+
+[33mcommit c1c7279487b1b99399a4b6d34a1073e30dffc070[m
+Author: Dominika98 <dominika.kubicz@gmail.com>
+Date:   Fri Dec 4 12:30:49 2020 +0100
+
+    LoRa almost working dummy data
+
+[33mcommit b3082ee30ce2520854831468ab3e997b7e9be416[m
+Author: adelkesc <256523@via.dk>
+Date:   Fri Dec 4 11:43:37 2020 +0100
+
+    Attempted to link PageModel with View.
+
+[33mcommit f7dcc86a08e6af290ad3d9990d1fd8d79157db68[m
+Merge: a901e64 42620d5
+Author: adelkesc <256523@via.dk>
+Date:   Thu Dec 3 03:08:22 2020 +0100
+
+    Merge branch 'master' of https://github.com/MihailKanchev/BPR1_HV
+
+[33mcommit a901e64a1d61fa5e892eeedffc947b77b35c0d91[m
+Author: adelkesc <256523@via.dk>
+Date:   Thu Dec 3 03:08:18 2020 +0100
+
+    Added Reading class and switched GET with PUT.
+
+[33mcommit 42620d51ff79dbde8c2436eb91a6d1af7cf8a38d[m
+Author: Dominika98 <dominika.kubicz@gmail.com>
+Date:   Wed Dec 2 10:44:45 2020 +0100
+
+    LoRa driver initialization
+
+[33mcommit f3829993bdce59b894ffa5d74baa9c85d0e17359[m
+Merge: a4cbd92 03c08f2
+Author: adelkesc <256523@via.dk>
+Date:   Wed Dec 2 06:02:31 2020 +0100
+
+    Merge branch 'master' of https://github.com/MihailKanchev/BPR1_H
