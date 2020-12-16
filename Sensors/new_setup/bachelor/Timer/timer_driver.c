@@ -33,16 +33,11 @@ void intialize_timer()
 	timeout_flag = true;
 	
 	TimeoutTimer = xTimerCreate( "Timeout Timer",
-                     /* The timer period in ticks, must be
-                     greater than 0. Current value is set to around
-					 10min*/
+                     /* Current value is set to around 10min*/
                      50000,
                      /* The timers will auto-reload themselves
                      when they expire. */
                      pdTRUE,
-                     /* The ID is used to store a count of the
-                     number of times the timer has expired, which
-                     is initialised to 0. */
                      ( void * ) 0,
                      /* Each timer calls the same callback when
                      it expires. */
