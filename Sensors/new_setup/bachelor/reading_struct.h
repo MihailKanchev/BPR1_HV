@@ -15,7 +15,7 @@
 
 struct reading {
 	int readingLabel; // e.g. 0 - temp, 1 - pressure
-	uint16_t value; // the converted value read by the sensor
+	uint16_t value; // the ADC reading
 };
 
 

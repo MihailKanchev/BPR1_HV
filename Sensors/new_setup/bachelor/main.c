@@ -116,7 +116,7 @@ void lorawan( void *pvParameters )
 	// Give it a chance to wakeup
 	vTaskDelay(150);
 
-	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
+	lora_driver_flushBuffers();
 
 	// Factory reset the transceiver
 	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
@@ -125,7 +125,7 @@ void lorawan( void *pvParameters )
 	printf("Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
 
 	// Get the RN2483 modules unique devEUI
-	static char devEui[17]; // It is static to avoid it to occupy stack space in the task
+	static char devEui[17];
 	if (lora_driver_getRn2483Hweui(devEui) != LORA_OK)
 	{
 		printf("Error when receiving device EUI!\n");

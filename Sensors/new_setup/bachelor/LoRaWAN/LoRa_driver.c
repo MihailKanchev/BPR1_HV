@@ -86,5 +86,4 @@ void send_measurements(){
 			break;
 		}
 	}
-	
 }
