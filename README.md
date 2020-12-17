@@ -1,4 +1,4 @@
->> Main contributors:**Mihail Kanchev, Amahdya Delkescamp, Dominika Kubicz** <<
+>> Main contributors:**Mihail Kanchev, Amahdya Delkescamp, Dominika Kubicz**
 # Architecture
 ![Architecture](https://i.imgur.com/B0XHQP4.jpg)
 #System Class Diagram
