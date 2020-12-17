@@ -68,6 +68,7 @@ namespace BachelorApp.Interfaces
                             if(msgString.Substring(8, 2) == "gw")
                             {
                                 Console.WriteLine("Sensor message received.");
+                                Console.WriteLine(msgString);
                                 SaveMessage(msgString);
                             }
                         }
@@ -76,6 +77,7 @@ namespace BachelorApp.Interfaces
                         ms.Position = 0;
                         ms.SetLength(0);
                     }
+                    Console.WriteLine("Restarting socket connection");
                     OpenSocket();
                 }
             }
@@ -109,6 +111,7 @@ namespace BachelorApp.Interfaces
         }*/
         public void SaveMessage(String message)
         {
+            Console.WriteLine("Deserializing sensor message");
             //Deserialize and save in DB
             Root root1 = new Root();
             root1 = JsonSerializer.Deserialize<Root>(message);
@@ -122,7 +125,9 @@ namespace BachelorApp.Interfaces
             reading.time = time;
             reading.temp = ConvertIntToTemperature(data1);
             reading.pres = ConvertIntToPressure(data2);
+            
             sensors.Add(reading);
+            Console.WriteLine("Saving (Date and Time: " + reading.time + "/ Temperature: " + reading.temp + "/ Pressure: " + reading.pres + ") in the database.");
             service.AddReading(reading);
         }
         public List<Sensor> GetList()
@@ -139,14 +144,16 @@ namespace BachelorApp.Interfaces
             double slope = 0.02110582;
             double inter = -3.06716296;
             float tem;
-            tem = (int)((temp * slope) + inter);
+            tem = (float)((temp * slope) + inter);
+            Console.WriteLine("Deserialized temperature integer " + temp + " into float " + tem);
             return tem;
         }
         public float ConvertIntToPressure(int press)
         {
             double voltage = (5*press) / 1024;
             float pascal = (float)(3 * (voltage - 0.44)) * 10;
-            return pascal; // Add function to transform int into a pres float
+            Console.WriteLine("Deserialized pressure integer " + press + " into float " + pascal);
+            return pascal; 
         }
     }
 
