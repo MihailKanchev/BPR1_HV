@@ -1,4 +1,8 @@
 >> Main contributors: **Mihail Kanchev, Amahdya Delkescamp, Dominika Kubicz**
+
+# User Interface
+![User Interface](https://i.imgur.com/sCyNWLL.png)
+
 # Architecture
 ![Architecture](https://i.imgur.com/B0XHQP4.jpg)
 
