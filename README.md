@@ -7,6 +7,7 @@
 * Appendix D - Circuit Components
 * Appendix E - Black Box testing
 
+*To run the idfferent modules, please refer to the README files in their respective folders*
 
 # User Interface
 ![User Interface](https://i.imgur.com/sCyNWLL.png)
