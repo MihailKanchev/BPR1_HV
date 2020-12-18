@@ -1,5 +1,13 @@
 >> Main contributors: **Mihail Kanchev, Amahdya Delkescamp, Dominika Kubicz**
 
+	
+* Appendix A - Project Description and IEEE Standart
+* Appendix B - Analysis Diagrams
+* Appendix C - Design Diagrams and extra research material
+* Appendix D - Circuit Components
+* Appendix E - Black Box testing
+
+
 # User Interface
 ![User Interface](https://i.imgur.com/sCyNWLL.png)
 
