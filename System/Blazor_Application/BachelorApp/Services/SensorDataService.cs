@@ -23,7 +23,6 @@ namespace BachelorApp.Services
                 readings = await context.Sensors.ToListAsync();
                 //added an await and "Async" to ToList.  it was synchronous without the await.
             };
-
             return readings;
         }
 

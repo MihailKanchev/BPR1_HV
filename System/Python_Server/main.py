@@ -14,6 +14,8 @@ model = joblib.load('model.pkl')
 class Forecast(Resource):  
     def put(self):
         raw_data = request.get_data()
+        print('Client request received.')
+        print(raw_data)
         
         args = json.loads(raw_data)
         
@@ -25,6 +27,8 @@ class Forecast(Resource):
         
         answer = prediction+',' + str(proba[0])
         
+        print('Responding to client request...')
+        print(answer)
         return  json.dumps(answer.tolist()), 201
      
     
