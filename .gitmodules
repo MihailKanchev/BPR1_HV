@@ -4,3 +4,9 @@
 [submodule "Sensors/new_setup/bachelor/FreeRTOS"]
 	path = Sensors/new_setup/bachelor/FreeRTOS
 	url = https://github.com/ihavn/VIA_FreeRTOS_AVRMEGA
+[submodule "System/Sensors_Application/drivers"]
+	path = System/Sensors_Application/drivers
+	url = https://github.com/ihavn/IoT_Semester_project.git
+[submodule "System/Sensors_Application/FreeRTOS"]
+	path = System/Sensors_Application/FreeRTOS
+	url = https://github.com/ihavn/VIA_FreeRTOS_AVRMEGA
