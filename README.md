@@ -1,3 +1,5 @@
+
+# Reduction of Physical Supervision, an IoT and ML project
 >> Main contributors: **Mihail Kanchev, Amahdya Delkescamp, Dominika Kubicz**
 
 	
